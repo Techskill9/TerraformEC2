@@ -1,0 +1,14 @@
+name: TFLint composite action
+run-name: ${{ github.actor }} is executing TFLint linter for terraform.
+on:
+  - pull_request
+  - push
+
+jobs:
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run TFLint composite action
+        uses: oneTakeda/tfbuildingblockdevs-tflint-composite-action@main
+        with:
+          tflint_version: v0.44.1

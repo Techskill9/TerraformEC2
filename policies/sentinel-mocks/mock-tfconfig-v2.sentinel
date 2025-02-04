@@ -1,0 +1,3130 @@
+import "strings"
+
+providers = {
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:aws": {
+		"alias":               "",
+		"config":              {},
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":                "aws",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:aws",
+		"version_constraint":  ">= 4.7.0",
+	},
+	"module.takeda_ec2_instance:aws": {
+		"alias": "",
+		"config": {
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+		},
+		"module_address":      "module.takeda_ec2_instance",
+		"name":                "aws",
+		"provider_config_key": "module.takeda_ec2_instance:aws",
+		"version_constraint":  "4.13.0",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:aws": {
+		"alias":               "",
+		"config":              {},
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":                "aws",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:aws",
+		"version_constraint":  ">= 4.7.0",
+	},
+	"module.takeda_ec2_instance_web:aws": {
+		"alias": "",
+		"config": {
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+		},
+		"module_address":      "module.takeda_ec2_instance_web",
+		"name":                "aws",
+		"provider_config_key": "module.takeda_ec2_instance_web:aws",
+		"version_constraint":  "4.13.0",
+	},
+}
+
+resources = {
+	"module.takeda_ec2_instance.module.ec2_instance.data.aws_kms_alias.ebs_key": {
+		"address": "module.takeda_ec2_instance.module.ec2_instance.data.aws_kms_alias.ebs_key",
+		"config": {
+			"name": {
+				"constant_value": "alias/TEC-EBS",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance",
+		"name":                "ebs_key",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_kms_alias",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.data.aws_ssm_parameter.ami_id": {
+		"address": "module.takeda_ec2_instance.module.ec2_instance.data.aws_ssm_parameter.ami_id",
+		"config": {
+			"name": {
+				"references": [
+					"local.ami_location",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance",
+		"name":                "ami_id",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_ssm_parameter",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.data.aws_subnets.subnets": {
+		"address": "module.takeda_ec2_instance.module.ec2_instance.data.aws_subnets.subnets",
+		"config": {
+			"filter": [
+				{
+					"name": {
+						"constant_value": "vpc-id",
+					},
+					"values": {
+						"references": [
+							"data.aws_vpc.vpc.id",
+							"data.aws_vpc.vpc",
+						],
+					},
+				},
+			],
+			"tags": {
+				"references": [
+					"data.aws_vpc.vpc.tags.Name",
+					"data.aws_vpc.vpc.tags",
+					"data.aws_vpc.vpc",
+					"var.instance_tier",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance",
+		"name":                "subnets",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_subnets",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.data.aws_vpc.vpc": {
+		"address": "module.takeda_ec2_instance.module.ec2_instance.data.aws_vpc.vpc",
+		"config": {
+			"filter": [
+				{
+					"name": {
+						"constant_value": "tag:Name",
+					},
+					"values": {
+						"constant_value": [
+							"*-shr-*",
+						],
+					},
+				},
+			],
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance",
+		"name":                "vpc",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_vpc",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance.aws_instance.this": {
+		"address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance.aws_instance.this",
+		"config": {
+			"ami": {
+				"references": [
+					"var.ami",
+				],
+			},
+			"associate_public_ip_address": {
+				"references": [
+					"var.associate_public_ip_address",
+				],
+			},
+			"availability_zone": {
+				"references": [
+					"var.availability_zone",
+				],
+			},
+			"cpu_core_count": {
+				"references": [
+					"var.cpu_core_count",
+				],
+			},
+			"cpu_threads_per_core": {
+				"references": [
+					"var.cpu_threads_per_core",
+				],
+			},
+			"credit_specification": [
+				{
+					"cpu_credits": {
+						"references": [
+							"local.is_t_instance_type",
+							"var.cpu_credits",
+						],
+					},
+				},
+			],
+			"disable_api_termination": {
+				"references": [
+					"var.disable_api_termination",
+				],
+			},
+			"ebs_optimized": {
+				"references": [
+					"var.ebs_optimized",
+				],
+			},
+			"enclave_options": [
+				{
+					"enabled": {
+						"references": [
+							"var.enclave_options_enabled",
+						],
+					},
+				},
+			],
+			"get_password_data": {
+				"references": [
+					"var.get_password_data",
+				],
+			},
+			"hibernation": {
+				"references": [
+					"var.hibernation",
+				],
+			},
+			"host_id": {
+				"references": [
+					"var.host_id",
+				],
+			},
+			"iam_instance_profile": {
+				"references": [
+					"var.iam_instance_profile",
+				],
+			},
+			"instance_initiated_shutdown_behavior": {
+				"references": [
+					"var.instance_initiated_shutdown_behavior",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"ipv6_address_count": {
+				"references": [
+					"var.ipv6_address_count",
+				],
+			},
+			"ipv6_addresses": {
+				"references": [
+					"var.ipv6_addresses",
+				],
+			},
+			"key_name": {
+				"references": [
+					"var.key_name",
+				],
+			},
+			"monitoring": {
+				"references": [
+					"var.monitoring",
+				],
+			},
+			"placement_group": {
+				"references": [
+					"var.placement_group",
+				],
+			},
+			"private_ip": {
+				"references": [
+					"var.private_ip",
+				],
+			},
+			"secondary_private_ips": {
+				"references": [
+					"var.secondary_private_ips",
+				],
+			},
+			"source_dest_check": {
+				"references": [
+					"var.network_interface",
+					"var.source_dest_check",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"var.subnet_id",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.name",
+					"var.tags",
+				],
+			},
+			"tenancy": {
+				"references": [
+					"var.tenancy",
+				],
+			},
+			"timeouts": {
+				"constant_value": null,
+			},
+			"user_data": {
+				"references": [
+					"var.user_data",
+				],
+			},
+			"user_data_base64": {
+				"references": [
+					"var.user_data_base64",
+				],
+			},
+			"user_data_replace_on_change": {
+				"references": [
+					"var.user_data_replace_on_change",
+				],
+			},
+			"volume_tags": {
+				"references": [
+					"var.enable_volume_tags",
+					"var.name",
+					"var.volume_tags",
+				],
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"var.vpc_security_group_ids",
+				],
+			},
+		},
+		"count": {
+			"references": [
+				"local.create",
+				"var.create_spot_instance",
+			],
+		},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":                "this",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:aws",
+		"provisioners":        [],
+		"type":                "aws_instance",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance.aws_spot_instance_request.this": {
+		"address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance.aws_spot_instance_request.this",
+		"config": {
+			"ami": {
+				"references": [
+					"var.ami",
+				],
+			},
+			"associate_public_ip_address": {
+				"references": [
+					"var.associate_public_ip_address",
+				],
+			},
+			"availability_zone": {
+				"references": [
+					"var.availability_zone",
+				],
+			},
+			"block_duration_minutes": {
+				"references": [
+					"var.spot_block_duration_minutes",
+				],
+			},
+			"cpu_core_count": {
+				"references": [
+					"var.cpu_core_count",
+				],
+			},
+			"cpu_threads_per_core": {
+				"references": [
+					"var.cpu_threads_per_core",
+				],
+			},
+			"credit_specification": [
+				{
+					"cpu_credits": {
+						"references": [
+							"local.is_t_instance_type",
+							"var.cpu_credits",
+						],
+					},
+				},
+			],
+			"disable_api_termination": {
+				"references": [
+					"var.disable_api_termination",
+				],
+			},
+			"ebs_optimized": {
+				"references": [
+					"var.ebs_optimized",
+				],
+			},
+			"enclave_options": [
+				{
+					"enabled": {
+						"references": [
+							"var.enclave_options_enabled",
+						],
+					},
+				},
+			],
+			"get_password_data": {
+				"references": [
+					"var.get_password_data",
+				],
+			},
+			"hibernation": {
+				"references": [
+					"var.hibernation",
+				],
+			},
+			"host_id": {
+				"references": [
+					"var.host_id",
+				],
+			},
+			"iam_instance_profile": {
+				"references": [
+					"var.iam_instance_profile",
+				],
+			},
+			"instance_initiated_shutdown_behavior": {
+				"references": [
+					"var.instance_initiated_shutdown_behavior",
+				],
+			},
+			"instance_interruption_behavior": {
+				"references": [
+					"var.spot_instance_interruption_behavior",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"ipv6_address_count": {
+				"references": [
+					"var.ipv6_address_count",
+				],
+			},
+			"ipv6_addresses": {
+				"references": [
+					"var.ipv6_addresses",
+				],
+			},
+			"key_name": {
+				"references": [
+					"var.key_name",
+				],
+			},
+			"launch_group": {
+				"references": [
+					"var.spot_launch_group",
+				],
+			},
+			"monitoring": {
+				"references": [
+					"var.monitoring",
+				],
+			},
+			"placement_group": {
+				"references": [
+					"var.placement_group",
+				],
+			},
+			"private_ip": {
+				"references": [
+					"var.private_ip",
+				],
+			},
+			"secondary_private_ips": {
+				"references": [
+					"var.secondary_private_ips",
+				],
+			},
+			"source_dest_check": {
+				"references": [
+					"var.network_interface",
+					"var.source_dest_check",
+				],
+			},
+			"spot_price": {
+				"references": [
+					"var.spot_price",
+				],
+			},
+			"spot_type": {
+				"references": [
+					"var.spot_type",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"var.subnet_id",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.name",
+					"var.tags",
+				],
+			},
+			"tenancy": {
+				"references": [
+					"var.tenancy",
+				],
+			},
+			"timeouts": {
+				"constant_value": null,
+			},
+			"user_data": {
+				"references": [
+					"var.user_data",
+				],
+			},
+			"user_data_base64": {
+				"references": [
+					"var.user_data_base64",
+				],
+			},
+			"user_data_replace_on_change": {
+				"references": [
+					"var.user_data_replace_on_change",
+				],
+			},
+			"valid_from": {
+				"references": [
+					"var.spot_valid_from",
+				],
+			},
+			"valid_until": {
+				"references": [
+					"var.spot_valid_until",
+				],
+			},
+			"volume_tags": {
+				"references": [
+					"var.enable_volume_tags",
+					"var.name",
+					"var.volume_tags",
+				],
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"var.vpc_security_group_ids",
+				],
+			},
+			"wait_for_fulfillment": {
+				"references": [
+					"var.spot_wait_for_fulfillment",
+				],
+			},
+		},
+		"count": {
+			"references": [
+				"local.create",
+				"var.create_spot_instance",
+			],
+		},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":                "this",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:aws",
+		"provisioners":        [],
+		"type":                "aws_spot_instance_request",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.random_shuffle.subnet": {
+		"address": "module.takeda_ec2_instance.module.ec2_instance.random_shuffle.subnet",
+		"config": {
+			"input": {
+				"references": [
+					"data.aws_subnets.subnets.ids",
+					"data.aws_subnets.subnets",
+				],
+			},
+			"result_count": {
+				"constant_value": 1,
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.takeda_ec2_instance.module.ec2_instance",
+		"name":                "subnet",
+		"provider_config_key": "module.takeda_ec2_instance.module.ec2_instance:random",
+		"provisioners":        [],
+		"type":                "random_shuffle",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.data.aws_kms_alias.ebs_key": {
+		"address": "module.takeda_ec2_instance_web.module.ec2_instance.data.aws_kms_alias.ebs_key",
+		"config": {
+			"name": {
+				"constant_value": "alias/TEC-EBS",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":                "ebs_key",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_kms_alias",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.data.aws_ssm_parameter.ami_id": {
+		"address": "module.takeda_ec2_instance_web.module.ec2_instance.data.aws_ssm_parameter.ami_id",
+		"config": {
+			"name": {
+				"references": [
+					"local.ami_location",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":                "ami_id",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_ssm_parameter",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.data.aws_subnets.subnets": {
+		"address": "module.takeda_ec2_instance_web.module.ec2_instance.data.aws_subnets.subnets",
+		"config": {
+			"filter": [
+				{
+					"name": {
+						"constant_value": "vpc-id",
+					},
+					"values": {
+						"references": [
+							"data.aws_vpc.vpc.id",
+							"data.aws_vpc.vpc",
+						],
+					},
+				},
+			],
+			"tags": {
+				"references": [
+					"data.aws_vpc.vpc.tags.Name",
+					"data.aws_vpc.vpc.tags",
+					"data.aws_vpc.vpc",
+					"var.instance_tier",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":                "subnets",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_subnets",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.data.aws_vpc.vpc": {
+		"address": "module.takeda_ec2_instance_web.module.ec2_instance.data.aws_vpc.vpc",
+		"config": {
+			"filter": [
+				{
+					"name": {
+						"constant_value": "tag:Name",
+					},
+					"values": {
+						"constant_value": [
+							"*-shr-*",
+						],
+					},
+				},
+			],
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":                "vpc",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance:aws",
+		"provisioners":        [],
+		"type":                "aws_vpc",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance.aws_instance.this": {
+		"address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance.aws_instance.this",
+		"config": {
+			"ami": {
+				"references": [
+					"var.ami",
+				],
+			},
+			"associate_public_ip_address": {
+				"references": [
+					"var.associate_public_ip_address",
+				],
+			},
+			"availability_zone": {
+				"references": [
+					"var.availability_zone",
+				],
+			},
+			"cpu_core_count": {
+				"references": [
+					"var.cpu_core_count",
+				],
+			},
+			"cpu_threads_per_core": {
+				"references": [
+					"var.cpu_threads_per_core",
+				],
+			},
+			"credit_specification": [
+				{
+					"cpu_credits": {
+						"references": [
+							"local.is_t_instance_type",
+							"var.cpu_credits",
+						],
+					},
+				},
+			],
+			"disable_api_termination": {
+				"references": [
+					"var.disable_api_termination",
+				],
+			},
+			"ebs_optimized": {
+				"references": [
+					"var.ebs_optimized",
+				],
+			},
+			"enclave_options": [
+				{
+					"enabled": {
+						"references": [
+							"var.enclave_options_enabled",
+						],
+					},
+				},
+			],
+			"get_password_data": {
+				"references": [
+					"var.get_password_data",
+				],
+			},
+			"hibernation": {
+				"references": [
+					"var.hibernation",
+				],
+			},
+			"host_id": {
+				"references": [
+					"var.host_id",
+				],
+			},
+			"iam_instance_profile": {
+				"references": [
+					"var.iam_instance_profile",
+				],
+			},
+			"instance_initiated_shutdown_behavior": {
+				"references": [
+					"var.instance_initiated_shutdown_behavior",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"ipv6_address_count": {
+				"references": [
+					"var.ipv6_address_count",
+				],
+			},
+			"ipv6_addresses": {
+				"references": [
+					"var.ipv6_addresses",
+				],
+			},
+			"key_name": {
+				"references": [
+					"var.key_name",
+				],
+			},
+			"monitoring": {
+				"references": [
+					"var.monitoring",
+				],
+			},
+			"placement_group": {
+				"references": [
+					"var.placement_group",
+				],
+			},
+			"private_ip": {
+				"references": [
+					"var.private_ip",
+				],
+			},
+			"secondary_private_ips": {
+				"references": [
+					"var.secondary_private_ips",
+				],
+			},
+			"source_dest_check": {
+				"references": [
+					"var.network_interface",
+					"var.source_dest_check",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"var.subnet_id",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.name",
+					"var.tags",
+				],
+			},
+			"tenancy": {
+				"references": [
+					"var.tenancy",
+				],
+			},
+			"timeouts": {
+				"constant_value": null,
+			},
+			"user_data": {
+				"references": [
+					"var.user_data",
+				],
+			},
+			"user_data_base64": {
+				"references": [
+					"var.user_data_base64",
+				],
+			},
+			"user_data_replace_on_change": {
+				"references": [
+					"var.user_data_replace_on_change",
+				],
+			},
+			"volume_tags": {
+				"references": [
+					"var.enable_volume_tags",
+					"var.name",
+					"var.volume_tags",
+				],
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"var.vpc_security_group_ids",
+				],
+			},
+		},
+		"count": {
+			"references": [
+				"local.create",
+				"var.create_spot_instance",
+			],
+		},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":                "this",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:aws",
+		"provisioners":        [],
+		"type":                "aws_instance",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance.aws_spot_instance_request.this": {
+		"address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance.aws_spot_instance_request.this",
+		"config": {
+			"ami": {
+				"references": [
+					"var.ami",
+				],
+			},
+			"associate_public_ip_address": {
+				"references": [
+					"var.associate_public_ip_address",
+				],
+			},
+			"availability_zone": {
+				"references": [
+					"var.availability_zone",
+				],
+			},
+			"block_duration_minutes": {
+				"references": [
+					"var.spot_block_duration_minutes",
+				],
+			},
+			"cpu_core_count": {
+				"references": [
+					"var.cpu_core_count",
+				],
+			},
+			"cpu_threads_per_core": {
+				"references": [
+					"var.cpu_threads_per_core",
+				],
+			},
+			"credit_specification": [
+				{
+					"cpu_credits": {
+						"references": [
+							"local.is_t_instance_type",
+							"var.cpu_credits",
+						],
+					},
+				},
+			],
+			"disable_api_termination": {
+				"references": [
+					"var.disable_api_termination",
+				],
+			},
+			"ebs_optimized": {
+				"references": [
+					"var.ebs_optimized",
+				],
+			},
+			"enclave_options": [
+				{
+					"enabled": {
+						"references": [
+							"var.enclave_options_enabled",
+						],
+					},
+				},
+			],
+			"get_password_data": {
+				"references": [
+					"var.get_password_data",
+				],
+			},
+			"hibernation": {
+				"references": [
+					"var.hibernation",
+				],
+			},
+			"host_id": {
+				"references": [
+					"var.host_id",
+				],
+			},
+			"iam_instance_profile": {
+				"references": [
+					"var.iam_instance_profile",
+				],
+			},
+			"instance_initiated_shutdown_behavior": {
+				"references": [
+					"var.instance_initiated_shutdown_behavior",
+				],
+			},
+			"instance_interruption_behavior": {
+				"references": [
+					"var.spot_instance_interruption_behavior",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"ipv6_address_count": {
+				"references": [
+					"var.ipv6_address_count",
+				],
+			},
+			"ipv6_addresses": {
+				"references": [
+					"var.ipv6_addresses",
+				],
+			},
+			"key_name": {
+				"references": [
+					"var.key_name",
+				],
+			},
+			"launch_group": {
+				"references": [
+					"var.spot_launch_group",
+				],
+			},
+			"monitoring": {
+				"references": [
+					"var.monitoring",
+				],
+			},
+			"placement_group": {
+				"references": [
+					"var.placement_group",
+				],
+			},
+			"private_ip": {
+				"references": [
+					"var.private_ip",
+				],
+			},
+			"secondary_private_ips": {
+				"references": [
+					"var.secondary_private_ips",
+				],
+			},
+			"source_dest_check": {
+				"references": [
+					"var.network_interface",
+					"var.source_dest_check",
+				],
+			},
+			"spot_price": {
+				"references": [
+					"var.spot_price",
+				],
+			},
+			"spot_type": {
+				"references": [
+					"var.spot_type",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"var.subnet_id",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.name",
+					"var.tags",
+				],
+			},
+			"tenancy": {
+				"references": [
+					"var.tenancy",
+				],
+			},
+			"timeouts": {
+				"constant_value": null,
+			},
+			"user_data": {
+				"references": [
+					"var.user_data",
+				],
+			},
+			"user_data_base64": {
+				"references": [
+					"var.user_data_base64",
+				],
+			},
+			"user_data_replace_on_change": {
+				"references": [
+					"var.user_data_replace_on_change",
+				],
+			},
+			"valid_from": {
+				"references": [
+					"var.spot_valid_from",
+				],
+			},
+			"valid_until": {
+				"references": [
+					"var.spot_valid_until",
+				],
+			},
+			"volume_tags": {
+				"references": [
+					"var.enable_volume_tags",
+					"var.name",
+					"var.volume_tags",
+				],
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"var.vpc_security_group_ids",
+				],
+			},
+			"wait_for_fulfillment": {
+				"references": [
+					"var.spot_wait_for_fulfillment",
+				],
+			},
+		},
+		"count": {
+			"references": [
+				"local.create",
+				"var.create_spot_instance",
+			],
+		},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":                "this",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:aws",
+		"provisioners":        [],
+		"type":                "aws_spot_instance_request",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.random_shuffle.subnet": {
+		"address": "module.takeda_ec2_instance_web.module.ec2_instance.random_shuffle.subnet",
+		"config": {
+			"input": {
+				"references": [
+					"data.aws_subnets.subnets.ids",
+					"data.aws_subnets.subnets",
+				],
+			},
+			"result_count": {
+				"constant_value": 1,
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":                "subnet",
+		"provider_config_key": "module.takeda_ec2_instance_web.module.ec2_instance:random",
+		"provisioners":        [],
+		"type":                "random_shuffle",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:ami": {
+		"default":        "",
+		"description":    "ID of AMI to use for the instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "ami",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:associate_public_ip_address": {
+		"default":        null,
+		"description":    "Whether to associate a public IP address with an instance in a VPC",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "associate_public_ip_address",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:availability_zone": {
+		"default":        null,
+		"description":    "AZ to start the instance in",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "availability_zone",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:capacity_reservation_specification": {
+		"default":        null,
+		"description":    "Describes an instance's Capacity Reservation targeting option",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "capacity_reservation_specification",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:cpu_core_count": {
+		"default":        null,
+		"description":    "Sets the number of CPU cores for an instance.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "cpu_core_count",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:cpu_credits": {
+		"default":        null,
+		"description":    "The credit option for CPU usage (unlimited or standard)",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "cpu_credits",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:cpu_threads_per_core": {
+		"default":        null,
+		"description":    "Sets the number of CPU threads per core for an instance (has no effect unless cpu_core_count is also set).",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "cpu_threads_per_core",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:create": {
+		"default":        true,
+		"description":    "Whether to create an instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "create",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:create_spot_instance": {
+		"default":        false,
+		"description":    "Depicts if the instance is a spot instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "create_spot_instance",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:disable_api_termination": {
+		"default":        null,
+		"description":    "If true, enables EC2 Instance Termination Protection",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "disable_api_termination",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:ebs_block_device": {
+		"default":        [],
+		"description":    "Additional EBS block devices to attach to the instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "ebs_block_device",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:ebs_optimized": {
+		"default":        null,
+		"description":    "If true, the launched EC2 instance will be EBS-optimized",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "ebs_optimized",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:enable_volume_tags": {
+		"default":        true,
+		"description":    "Whether to enable volume tags (if enabled it conflicts with root_block_device tags)",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "enable_volume_tags",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:enclave_options_enabled": {
+		"default":        null,
+		"description":    "Whether Nitro Enclaves will be enabled on the instance. Defaults to `false`",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "enclave_options_enabled",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:ephemeral_block_device": {
+		"default":        [],
+		"description":    "Customize Ephemeral (also known as Instance Store) volumes on the instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "ephemeral_block_device",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:get_password_data": {
+		"default":        null,
+		"description":    "If true, wait for password data to become available and retrieve it.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "get_password_data",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:hibernation": {
+		"default":        null,
+		"description":    "If true, the launched EC2 instance will support hibernation",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "hibernation",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:host_id": {
+		"default":        null,
+		"description":    "ID of a dedicated host that the instance will be assigned to. Use when an instance is to be launched on a specific dedicated host",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "host_id",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:iam_instance_profile": {
+		"default":        null,
+		"description":    "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "iam_instance_profile",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:instance_initiated_shutdown_behavior": {
+		"default":        null,
+		"description":    "Shutdown behavior for the instance. Amazon defaults this to stop for EBS-backed instances and terminate for instance-store instances. Cannot be set on instance-store instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "instance_initiated_shutdown_behavior",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:instance_type": {
+		"default":        "t3.micro",
+		"description":    "The type of instance to start",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "instance_type",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:ipv6_address_count": {
+		"default":        null,
+		"description":    "A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "ipv6_address_count",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:ipv6_addresses": {
+		"default":        null,
+		"description":    "Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "ipv6_addresses",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:key_name": {
+		"default":        null,
+		"description":    "Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "key_name",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:launch_template": {
+		"default":        null,
+		"description":    "Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "launch_template",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:metadata_options": {
+		"default":        {},
+		"description":    "Customize the metadata options of the instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "metadata_options",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:monitoring": {
+		"default":        false,
+		"description":    "If true, the launched EC2 instance will have detailed monitoring enabled",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "monitoring",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:name": {
+		"default":        "",
+		"description":    "Name to be used on EC2 instance created",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "name",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:network_interface": {
+		"default":        [],
+		"description":    "Customize network interfaces to be attached at instance boot time",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "network_interface",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:placement_group": {
+		"default":        null,
+		"description":    "The Placement Group to start the instance in",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "placement_group",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:private_ip": {
+		"default":        null,
+		"description":    "Private IP address to associate with the instance in a VPC",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "private_ip",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:putin_khuylo": {
+		"default":        true,
+		"description":    "Do you agree that Putin doesn't respect Ukrainian sovereignty and territorial integrity? More info: https://en.wikipedia.org/wiki/Putin_khuylo!",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "putin_khuylo",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:root_block_device": {
+		"default":        [],
+		"description":    "Customize details about the root block device of the instance. See Block Devices below for details",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "root_block_device",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:secondary_private_ips": {
+		"default":        null,
+		"description":    "A list of secondary private IPv4 addresses to assign to the instance's primary network interface (eth0) in a VPC. Can only be assigned to the primary network interface (eth0) attached at instance creation, not a pre-existing network interface i.e. referenced in a `network_interface block`",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "secondary_private_ips",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:source_dest_check": {
+		"default":        true,
+		"description":    "Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "source_dest_check",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_block_duration_minutes": {
+		"default":        null,
+		"description":    "The required duration for the Spot instances, in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360)",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_block_duration_minutes",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_instance_interruption_behavior": {
+		"default":        null,
+		"description":    "Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_instance_interruption_behavior",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_launch_group": {
+		"default":        null,
+		"description":    "A launch group is a group of spot instances that launch together and terminate together. If left empty instances are launched and terminated individually",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_launch_group",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_price": {
+		"default":        null,
+		"description":    "The maximum price to request on the spot market. Defaults to on-demand price",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_price",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_type": {
+		"default":        null,
+		"description":    "If set to one-time, after the instance is terminated, the spot request will be closed. Default `persistent`",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_type",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_valid_from": {
+		"default":        null,
+		"description":    "The start date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_valid_from",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_valid_until": {
+		"default":        null,
+		"description":    "The end date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_valid_until",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_wait_for_fulfillment": {
+		"default":        null,
+		"description":    "If set, Terraform will wait for the Spot Request to be fulfilled, and will throw an error if the timeout of 10m is reached",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_wait_for_fulfillment",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:subnet_id": {
+		"default":        null,
+		"description":    "The VPC Subnet ID to launch in",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "subnet_id",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:tags": {
+		"default":        {},
+		"description":    "A mapping of tags to assign to the resource",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "tags",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:tenancy": {
+		"default":        null,
+		"description":    "The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "tenancy",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:timeouts": {
+		"default":        {},
+		"description":    "Define maximum timeout for creating, updating, and deleting EC2 instance resources",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "timeouts",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:user_data": {
+		"default":        null,
+		"description":    "The user data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see user_data_base64 instead.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "user_data",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:user_data_base64": {
+		"default":        null,
+		"description":    "Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "user_data_base64",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:user_data_replace_on_change": {
+		"default":        false,
+		"description":    "When used in combination with user_data or user_data_base64 will trigger a destroy and recreate when set to true. Defaults to false if not set.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "user_data_replace_on_change",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:volume_tags": {
+		"default":        {},
+		"description":    "A mapping of tags to assign to the devices created by the instance at launch time",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "volume_tags",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:vpc_security_group_ids": {
+		"default":        null,
+		"description":    "A list of security group IDs to associate with",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "vpc_security_group_ids",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:bootstrap_override": {
+		"default":        false,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "bootstrap_override",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:custom_bootstrap": {
+		"default":        "",
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "custom_bootstrap",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:instance_tier": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "instance_tier",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:instance_type": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "instance_type",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:number_of_instances": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "number_of_instances",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:okta_asa_key": {
+		"default":        "",
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "okta_asa_key",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:os": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "os",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:os-lookup": {
+		"default": {
+			"RHEL7":         "/tec/golden-ami/RHEL7/ami-id",
+			"RHEL8":         "/tec/golden-ami/RHEL8/ami-id",
+			"Windows2016":   "/tec/golden-ami/Windows2016/NonDomainJoined/ami-id",
+			"Windows2016AD": "/tec/golden-ami/Windows2016/DomainJoined/ami-id",
+			"Windows2019":   "/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+			"Windows2019AD": "/tec/golden-ami/Windows2019/DomainJoined/ami-id",
+		},
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "os-lookup",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:os-prfix": {
+		"default": {
+			"AZL2":        "X",
+			"RHEL7":       "X",
+			"RHEL8":       "X",
+			"Windows2016": "W",
+			"Windows2019": "W",
+		},
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "os-prfix",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:region": {
+		"default":        "us-east-1",
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "region",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:region_code": {
+		"default": {
+			"ap-northeast-1": "JPTYO",
+			"ap-southeast-1": "SGSIN",
+			"eu-central-1":   "DEFRA",
+			"eu-west-1":      "IEDUB",
+			"us-east-1":      "USVGA",
+			"us-west-2":      "USORG",
+		},
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "region_code",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:root_volume_size": {
+		"default":        50,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "root_volume_size",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:security_groups": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "security_groups",
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:tags": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "tags",
+	},
+	"module.takeda_ec2_instance:bootstrap_override": {
+		"default":        false,
+		"description":    "Set to true only if a custom bootstrap script is required",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "bootstrap_override",
+	},
+	"module.takeda_ec2_instance:custom_bootstrap": {
+		"default":        "",
+		"description":    "If bootstrap overide is enabled pass script as a string in this variable",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "custom_bootstrap",
+	},
+	"module.takeda_ec2_instance:instance_tier": {
+		"default":        "app",
+		"description":    "Network tier to place the instances valid values are app, web, dat",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "instance_tier",
+	},
+	"module.takeda_ec2_instance:instance_type": {
+		"default":        "m5.large",
+		"description":    "Instance type for all instances built by this module",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "instance_type",
+	},
+	"module.takeda_ec2_instance:number_of_instances": {
+		"default":        1,
+		"description":    "Integer number of instances to be created using the specifications descibed for this module",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "number_of_instances",
+	},
+	"module.takeda_ec2_instance:okta_asa_key": {
+		"default":        "",
+		"description":    "Token to enroll instances in Okta ASA for remote access",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "okta_asa_key",
+	},
+	"module.takeda_ec2_instance:os": {
+		"default":        null,
+		"description":    "Select from approved operating systems RHEL8, RHEL7, Windows2019, Windows2016, Windows2019AD, Windows2016AD, or AZL2.",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "os",
+	},
+	"module.takeda_ec2_instance:region": {
+		"default":        "us-east-1",
+		"description":    "Region to deploy the instances",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "region",
+	},
+	"module.takeda_ec2_instance:root_volume_size": {
+		"default":        50,
+		"description":    "Size of root volume, minimum is 50",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "root_volume_size",
+	},
+	"module.takeda_ec2_instance:security_groups": {
+		"default":        null,
+		"description":    "List of security group ids to attach to the instances created by this module",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "security_groups",
+	},
+	"module.takeda_ec2_instance:tags": {
+		"default":        null,
+		"description":    "Tags as required by Tagging Standard, see README for more details",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "tags",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:ami": {
+		"default":        "",
+		"description":    "ID of AMI to use for the instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "ami",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:associate_public_ip_address": {
+		"default":        null,
+		"description":    "Whether to associate a public IP address with an instance in a VPC",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "associate_public_ip_address",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:availability_zone": {
+		"default":        null,
+		"description":    "AZ to start the instance in",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "availability_zone",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:capacity_reservation_specification": {
+		"default":        null,
+		"description":    "Describes an instance's Capacity Reservation targeting option",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "capacity_reservation_specification",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:cpu_core_count": {
+		"default":        null,
+		"description":    "Sets the number of CPU cores for an instance.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "cpu_core_count",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:cpu_credits": {
+		"default":        null,
+		"description":    "The credit option for CPU usage (unlimited or standard)",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "cpu_credits",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:cpu_threads_per_core": {
+		"default":        null,
+		"description":    "Sets the number of CPU threads per core for an instance (has no effect unless cpu_core_count is also set).",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "cpu_threads_per_core",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:create": {
+		"default":        true,
+		"description":    "Whether to create an instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "create",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:create_spot_instance": {
+		"default":        false,
+		"description":    "Depicts if the instance is a spot instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "create_spot_instance",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:disable_api_termination": {
+		"default":        null,
+		"description":    "If true, enables EC2 Instance Termination Protection",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "disable_api_termination",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:ebs_block_device": {
+		"default":        [],
+		"description":    "Additional EBS block devices to attach to the instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "ebs_block_device",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:ebs_optimized": {
+		"default":        null,
+		"description":    "If true, the launched EC2 instance will be EBS-optimized",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "ebs_optimized",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:enable_volume_tags": {
+		"default":        true,
+		"description":    "Whether to enable volume tags (if enabled it conflicts with root_block_device tags)",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "enable_volume_tags",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:enclave_options_enabled": {
+		"default":        null,
+		"description":    "Whether Nitro Enclaves will be enabled on the instance. Defaults to `false`",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "enclave_options_enabled",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:ephemeral_block_device": {
+		"default":        [],
+		"description":    "Customize Ephemeral (also known as Instance Store) volumes on the instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "ephemeral_block_device",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:get_password_data": {
+		"default":        null,
+		"description":    "If true, wait for password data to become available and retrieve it.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "get_password_data",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:hibernation": {
+		"default":        null,
+		"description":    "If true, the launched EC2 instance will support hibernation",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "hibernation",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:host_id": {
+		"default":        null,
+		"description":    "ID of a dedicated host that the instance will be assigned to. Use when an instance is to be launched on a specific dedicated host",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "host_id",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:iam_instance_profile": {
+		"default":        null,
+		"description":    "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "iam_instance_profile",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:instance_initiated_shutdown_behavior": {
+		"default":        null,
+		"description":    "Shutdown behavior for the instance. Amazon defaults this to stop for EBS-backed instances and terminate for instance-store instances. Cannot be set on instance-store instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "instance_initiated_shutdown_behavior",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:instance_type": {
+		"default":        "t3.micro",
+		"description":    "The type of instance to start",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "instance_type",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:ipv6_address_count": {
+		"default":        null,
+		"description":    "A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "ipv6_address_count",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:ipv6_addresses": {
+		"default":        null,
+		"description":    "Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "ipv6_addresses",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:key_name": {
+		"default":        null,
+		"description":    "Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "key_name",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:launch_template": {
+		"default":        null,
+		"description":    "Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "launch_template",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:metadata_options": {
+		"default":        {},
+		"description":    "Customize the metadata options of the instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "metadata_options",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:monitoring": {
+		"default":        false,
+		"description":    "If true, the launched EC2 instance will have detailed monitoring enabled",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "monitoring",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:name": {
+		"default":        "",
+		"description":    "Name to be used on EC2 instance created",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "name",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:network_interface": {
+		"default":        [],
+		"description":    "Customize network interfaces to be attached at instance boot time",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "network_interface",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:placement_group": {
+		"default":        null,
+		"description":    "The Placement Group to start the instance in",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "placement_group",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:private_ip": {
+		"default":        null,
+		"description":    "Private IP address to associate with the instance in a VPC",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "private_ip",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:putin_khuylo": {
+		"default":        true,
+		"description":    "Do you agree that Putin doesn't respect Ukrainian sovereignty and territorial integrity? More info: https://en.wikipedia.org/wiki/Putin_khuylo!",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "putin_khuylo",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:root_block_device": {
+		"default":        [],
+		"description":    "Customize details about the root block device of the instance. See Block Devices below for details",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "root_block_device",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:secondary_private_ips": {
+		"default":        null,
+		"description":    "A list of secondary private IPv4 addresses to assign to the instance's primary network interface (eth0) in a VPC. Can only be assigned to the primary network interface (eth0) attached at instance creation, not a pre-existing network interface i.e. referenced in a `network_interface block`",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "secondary_private_ips",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:source_dest_check": {
+		"default":        true,
+		"description":    "Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "source_dest_check",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_block_duration_minutes": {
+		"default":        null,
+		"description":    "The required duration for the Spot instances, in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360)",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_block_duration_minutes",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_instance_interruption_behavior": {
+		"default":        null,
+		"description":    "Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_instance_interruption_behavior",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_launch_group": {
+		"default":        null,
+		"description":    "A launch group is a group of spot instances that launch together and terminate together. If left empty instances are launched and terminated individually",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_launch_group",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_price": {
+		"default":        null,
+		"description":    "The maximum price to request on the spot market. Defaults to on-demand price",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_price",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_type": {
+		"default":        null,
+		"description":    "If set to one-time, after the instance is terminated, the spot request will be closed. Default `persistent`",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_type",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_valid_from": {
+		"default":        null,
+		"description":    "The start date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_valid_from",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_valid_until": {
+		"default":        null,
+		"description":    "The end date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_valid_until",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_wait_for_fulfillment": {
+		"default":        null,
+		"description":    "If set, Terraform will wait for the Spot Request to be fulfilled, and will throw an error if the timeout of 10m is reached",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_wait_for_fulfillment",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:subnet_id": {
+		"default":        null,
+		"description":    "The VPC Subnet ID to launch in",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "subnet_id",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:tags": {
+		"default":        {},
+		"description":    "A mapping of tags to assign to the resource",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "tags",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:tenancy": {
+		"default":        null,
+		"description":    "The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "tenancy",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:timeouts": {
+		"default":        {},
+		"description":    "Define maximum timeout for creating, updating, and deleting EC2 instance resources",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "timeouts",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:user_data": {
+		"default":        null,
+		"description":    "The user data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see user_data_base64 instead.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "user_data",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:user_data_base64": {
+		"default":        null,
+		"description":    "Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "user_data_base64",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:user_data_replace_on_change": {
+		"default":        false,
+		"description":    "When used in combination with user_data or user_data_base64 will trigger a destroy and recreate when set to true. Defaults to false if not set.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "user_data_replace_on_change",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:volume_tags": {
+		"default":        {},
+		"description":    "A mapping of tags to assign to the devices created by the instance at launch time",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "volume_tags",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:vpc_security_group_ids": {
+		"default":        null,
+		"description":    "A list of security group IDs to associate with",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "vpc_security_group_ids",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:bootstrap_override": {
+		"default":        false,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "bootstrap_override",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:custom_bootstrap": {
+		"default":        "",
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "custom_bootstrap",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:instance_tier": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "instance_tier",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:instance_type": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "instance_type",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:number_of_instances": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "number_of_instances",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:okta_asa_key": {
+		"default":        "",
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "okta_asa_key",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:os": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "os",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:os-lookup": {
+		"default": {
+			"RHEL7":         "/tec/golden-ami/RHEL7/ami-id",
+			"RHEL8":         "/tec/golden-ami/RHEL8/ami-id",
+			"Windows2016":   "/tec/golden-ami/Windows2016/NonDomainJoined/ami-id",
+			"Windows2016AD": "/tec/golden-ami/Windows2016/DomainJoined/ami-id",
+			"Windows2019":   "/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+			"Windows2019AD": "/tec/golden-ami/Windows2019/DomainJoined/ami-id",
+		},
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "os-lookup",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:os-prfix": {
+		"default": {
+			"AZL2":        "X",
+			"RHEL7":       "X",
+			"RHEL8":       "X",
+			"Windows2016": "W",
+			"Windows2019": "W",
+		},
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "os-prfix",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:region": {
+		"default":        "us-east-1",
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "region",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:region_code": {
+		"default": {
+			"ap-northeast-1": "JPTYO",
+			"ap-southeast-1": "SGSIN",
+			"eu-central-1":   "DEFRA",
+			"eu-west-1":      "IEDUB",
+			"us-east-1":      "USVGA",
+			"us-west-2":      "USORG",
+		},
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "region_code",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:root_volume_size": {
+		"default":        50,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "root_volume_size",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:security_groups": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "security_groups",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:tags": {
+		"default":        null,
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "tags",
+	},
+	"module.takeda_ec2_instance_web:bootstrap_override": {
+		"default":        false,
+		"description":    "Set to true only if a custom bootstrap script is required",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "bootstrap_override",
+	},
+	"module.takeda_ec2_instance_web:custom_bootstrap": {
+		"default":        "",
+		"description":    "If bootstrap overide is enabled pass script as a string in this variable",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "custom_bootstrap",
+	},
+	"module.takeda_ec2_instance_web:instance_tier": {
+		"default":        "app",
+		"description":    "Network tier to place the instances valid values are app, web, dat",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "instance_tier",
+	},
+	"module.takeda_ec2_instance_web:instance_type": {
+		"default":        "m5.large",
+		"description":    "Instance type for all instances built by this module",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "instance_type",
+	},
+	"module.takeda_ec2_instance_web:number_of_instances": {
+		"default":        1,
+		"description":    "Integer number of instances to be created using the specifications descibed for this module",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "number_of_instances",
+	},
+	"module.takeda_ec2_instance_web:okta_asa_key": {
+		"default":        "",
+		"description":    "Token to enroll instances in Okta ASA for remote access",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "okta_asa_key",
+	},
+	"module.takeda_ec2_instance_web:os": {
+		"default":        null,
+		"description":    "Select from approved operating systems RHEL8, RHEL7, Windows2019, Windows2016, Windows2019AD, Windows2016AD, or AZL2.",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "os",
+	},
+	"module.takeda_ec2_instance_web:region": {
+		"default":        "us-east-1",
+		"description":    "Region to deploy the instances",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "region",
+	},
+	"module.takeda_ec2_instance_web:root_volume_size": {
+		"default":        50,
+		"description":    "Size of root volume, minimum is 50",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "root_volume_size",
+	},
+	"module.takeda_ec2_instance_web:security_groups": {
+		"default":        null,
+		"description":    "List of security group ids to attach to the instances created by this module",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "security_groups",
+	},
+	"module.takeda_ec2_instance_web:tags": {
+		"default":        null,
+		"description":    "Tags as required by Tagging Standard, see README for more details",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "tags",
+	},
+}
+
+outputs = {
+	"app_instance": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "",
+		"name":           "app_instance",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.takeda_ec2_instance.instance",
+				"module.takeda_ec2_instance",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:arn": {
+		"depends_on":     [],
+		"description":    "The ARN of the instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "arn",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].arn",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].arn",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:capacity_reservation_specification": {
+		"depends_on":     [],
+		"description":    "Capacity reservation specification of the instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "capacity_reservation_specification",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].capacity_reservation_specification",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].capacity_reservation_specification",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:id": {
+		"depends_on":     [],
+		"description":    "The ID of the instance",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].id",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].id",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:instance_state": {
+		"depends_on":     [],
+		"description":    "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "instance_state",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].instance_state",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].instance_state",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:ipv6_addresses": {
+		"depends_on":     [],
+		"description":    "The IPv6 address assigned to the instance, if applicable.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "ipv6_addresses",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].ipv6_addresses",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:outpost_arn": {
+		"depends_on":     [],
+		"description":    "The ARN of the Outpost the instance is assigned to",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "outpost_arn",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].outpost_arn",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].outpost_arn",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:password_data": {
+		"depends_on":     [],
+		"description":    "Base-64 encoded encrypted password data for the instance. Useful for getting the administrator password for instances running Microsoft Windows. This attribute is only exported if `get_password_data` is true",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "password_data",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].password_data",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].password_data",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:primary_network_interface_id": {
+		"depends_on":     [],
+		"description":    "The ID of the instance's primary network interface",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "primary_network_interface_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].primary_network_interface_id",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].primary_network_interface_id",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:private_dns": {
+		"depends_on":     [],
+		"description":    "The private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "private_dns",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].private_dns",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].private_dns",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:private_ip": {
+		"depends_on":     [],
+		"description":    "The private IP address assigned to the instance.",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "private_ip",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].private_ip",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].private_ip",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:public_dns": {
+		"depends_on":     [],
+		"description":    "The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "public_dns",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].public_dns",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].public_dns",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:public_ip": {
+		"depends_on":     [],
+		"description":    "The public IP address assigned to the instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "public_ip",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].public_ip",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].public_ip",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_bid_status": {
+		"depends_on":     [],
+		"description":    "The current bid status of the Spot Instance Request",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_bid_status",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_spot_instance_request.this[0].spot_bid_status",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_instance_id": {
+		"depends_on":     [],
+		"description":    "The Instance ID (if any) that is currently fulfilling the Spot Instance request",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_instance_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_spot_instance_request.this[0].spot_instance_id",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:spot_request_state": {
+		"depends_on":     [],
+		"description":    "The current request state of the Spot Instance Request",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_request_state",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_spot_instance_request.this[0].spot_request_state",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance:tags_all": {
+		"depends_on":     [],
+		"description":    "A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance",
+		"name":           "tags_all",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].tags_all",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].tags_all",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:instance": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "instance",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.ec2-instance[0].id",
+				"module.ec2-instance[0]",
+			],
+		},
+	},
+	"module.takeda_ec2_instance.module.ec2_instance:subnet_shuffle": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance.module.ec2_instance",
+		"name":           "subnet_shuffle",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"random_shuffle.subnet.result",
+				"random_shuffle.subnet",
+			],
+		},
+	},
+	"module.takeda_ec2_instance:instance": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "instance",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.ec2_instance.instance",
+				"module.ec2_instance",
+			],
+		},
+	},
+	"module.takeda_ec2_instance:subnet": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance",
+		"name":           "subnet",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.ec2_instance.subnet_shuffle",
+				"module.ec2_instance",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:arn": {
+		"depends_on":     [],
+		"description":    "The ARN of the instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "arn",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].arn",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].arn",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:capacity_reservation_specification": {
+		"depends_on":     [],
+		"description":    "Capacity reservation specification of the instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "capacity_reservation_specification",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].capacity_reservation_specification",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].capacity_reservation_specification",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:id": {
+		"depends_on":     [],
+		"description":    "The ID of the instance",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].id",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].id",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:instance_state": {
+		"depends_on":     [],
+		"description":    "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "instance_state",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].instance_state",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].instance_state",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:ipv6_addresses": {
+		"depends_on":     [],
+		"description":    "The IPv6 address assigned to the instance, if applicable.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "ipv6_addresses",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].ipv6_addresses",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:outpost_arn": {
+		"depends_on":     [],
+		"description":    "The ARN of the Outpost the instance is assigned to",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "outpost_arn",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].outpost_arn",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].outpost_arn",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:password_data": {
+		"depends_on":     [],
+		"description":    "Base-64 encoded encrypted password data for the instance. Useful for getting the administrator password for instances running Microsoft Windows. This attribute is only exported if `get_password_data` is true",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "password_data",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].password_data",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].password_data",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:primary_network_interface_id": {
+		"depends_on":     [],
+		"description":    "The ID of the instance's primary network interface",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "primary_network_interface_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].primary_network_interface_id",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].primary_network_interface_id",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:private_dns": {
+		"depends_on":     [],
+		"description":    "The private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "private_dns",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].private_dns",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].private_dns",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:private_ip": {
+		"depends_on":     [],
+		"description":    "The private IP address assigned to the instance.",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "private_ip",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].private_ip",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].private_ip",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:public_dns": {
+		"depends_on":     [],
+		"description":    "The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "public_dns",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].public_dns",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].public_dns",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:public_ip": {
+		"depends_on":     [],
+		"description":    "The public IP address assigned to the instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "public_ip",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].public_ip",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].public_ip",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_bid_status": {
+		"depends_on":     [],
+		"description":    "The current bid status of the Spot Instance Request",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_bid_status",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_spot_instance_request.this[0].spot_bid_status",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_instance_id": {
+		"depends_on":     [],
+		"description":    "The Instance ID (if any) that is currently fulfilling the Spot Instance request",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_instance_id",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_spot_instance_request.this[0].spot_instance_id",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:spot_request_state": {
+		"depends_on":     [],
+		"description":    "The current request state of the Spot Instance Request",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "spot_request_state",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_spot_instance_request.this[0].spot_request_state",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance:tags_all": {
+		"depends_on":     [],
+		"description":    "A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance",
+		"name":           "tags_all",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.this[0].tags_all",
+				"aws_instance.this[0]",
+				"aws_instance.this",
+				"aws_spot_instance_request.this[0].tags_all",
+				"aws_spot_instance_request.this[0]",
+				"aws_spot_instance_request.this",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:instance": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "instance",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.ec2-instance[0].id",
+				"module.ec2-instance[0]",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:subnet_shuffle": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":           "subnet_shuffle",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"random_shuffle.subnet.result",
+				"random_shuffle.subnet",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web:instance": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "instance",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.ec2_instance.instance",
+				"module.ec2_instance",
+			],
+		},
+	},
+	"module.takeda_ec2_instance_web:subnet": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.takeda_ec2_instance_web",
+		"name":           "subnet",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.ec2_instance.subnet_shuffle",
+				"module.ec2_instance",
+			],
+		},
+	},
+	"subnet": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "",
+		"name":           "subnet",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.takeda_ec2_instance.subnet",
+				"module.takeda_ec2_instance",
+			],
+		},
+	},
+	"web_instance": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "",
+		"name":           "web_instance",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.takeda_ec2_instance_web.instance",
+				"module.takeda_ec2_instance_web",
+			],
+		},
+	},
+}
+
+module_calls = {
+	"module.takeda_ec2_instance.module.ec2_instance:ec2-instance": {
+		"config": {
+			"ami": {
+				"references": [
+					"data.aws_ssm_parameter.ami_id.value",
+					"data.aws_ssm_parameter.ami_id",
+				],
+			},
+			"iam_instance_profile": {
+				"constant_value": "TEC-EC2-SSM",
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"name": {
+				"references": [
+					"var.os-prfix",
+					"var.os",
+					"var.region_code",
+					"var.region",
+					"var.tags",
+					"var.tags",
+					"count.index",
+				],
+			},
+			"root_block_device": {
+				"references": [
+					"var.root_volume_size",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"random_shuffle.subnet.result[0]",
+					"random_shuffle.subnet.result",
+					"random_shuffle.subnet",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+			"user_data_base64": {
+				"references": [
+					"local.bootsrap_script",
+				],
+			},
+			"volume_tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"var.security_groups",
+				],
+			},
+		},
+		"count": {
+			"references": [
+				"var.number_of_instances",
+			],
+		},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "module.takeda_ec2_instance.module.ec2_instance",
+		"name":               "ec2-instance",
+		"source":             "terraform-aws-modules/ec2-instance/aws",
+		"version_constraint": "4.0.0",
+	},
+	"module.takeda_ec2_instance:ec2_instance": {
+		"config": {
+			"bootstrap_override": {
+				"references": [
+					"var.bootstrap_override",
+				],
+			},
+			"custom_bootstrap": {
+				"references": [
+					"var.custom_bootstrap",
+				],
+			},
+			"instance_tier": {
+				"references": [
+					"var.instance_tier",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"number_of_instances": {
+				"references": [
+					"var.number_of_instances",
+				],
+			},
+			"okta_asa_key": {
+				"references": [
+					"var.okta_asa_key",
+				],
+			},
+			"os": {
+				"references": [
+					"var.os",
+				],
+			},
+			"root_volume_size": {
+				"references": [
+					"var.root_volume_size",
+				],
+			},
+			"security_groups": {
+				"references": [
+					"var.security_groups",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+		},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "module.takeda_ec2_instance",
+		"name":               "ec2_instance",
+		"source":             "./modules/instance",
+		"version_constraint": "",
+	},
+	"module.takeda_ec2_instance_web.module.ec2_instance:ec2-instance": {
+		"config": {
+			"ami": {
+				"references": [
+					"data.aws_ssm_parameter.ami_id.value",
+					"data.aws_ssm_parameter.ami_id",
+				],
+			},
+			"iam_instance_profile": {
+				"constant_value": "TEC-EC2-SSM",
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"name": {
+				"references": [
+					"var.os-prfix",
+					"var.os",
+					"var.region_code",
+					"var.region",
+					"var.tags",
+					"var.tags",
+					"count.index",
+				],
+			},
+			"root_block_device": {
+				"references": [
+					"var.root_volume_size",
+				],
+			},
+			"subnet_id": {
+				"references": [
+					"random_shuffle.subnet.result[0]",
+					"random_shuffle.subnet.result",
+					"random_shuffle.subnet",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+			"user_data_base64": {
+				"references": [
+					"local.bootsrap_script",
+				],
+			},
+			"volume_tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"var.security_groups",
+				],
+			},
+		},
+		"count": {
+			"references": [
+				"var.number_of_instances",
+			],
+		},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "module.takeda_ec2_instance_web.module.ec2_instance",
+		"name":               "ec2-instance",
+		"source":             "terraform-aws-modules/ec2-instance/aws",
+		"version_constraint": "4.0.0",
+	},
+	"module.takeda_ec2_instance_web:ec2_instance": {
+		"config": {
+			"bootstrap_override": {
+				"references": [
+					"var.bootstrap_override",
+				],
+			},
+			"custom_bootstrap": {
+				"references": [
+					"var.custom_bootstrap",
+				],
+			},
+			"instance_tier": {
+				"references": [
+					"var.instance_tier",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"number_of_instances": {
+				"references": [
+					"var.number_of_instances",
+				],
+			},
+			"okta_asa_key": {
+				"references": [
+					"var.okta_asa_key",
+				],
+			},
+			"os": {
+				"references": [
+					"var.os",
+				],
+			},
+			"root_volume_size": {
+				"references": [
+					"var.root_volume_size",
+				],
+			},
+			"security_groups": {
+				"references": [
+					"var.security_groups",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.tags",
+				],
+			},
+		},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "module.takeda_ec2_instance_web",
+		"name":               "ec2_instance",
+		"source":             "./modules/instance",
+		"version_constraint": "",
+	},
+	"takeda_ec2_instance": {
+		"config": {
+			"bootstrap_override": {
+				"constant_value": true,
+			},
+			"custom_bootstrap": {
+				"constant_value": "",
+			},
+			"number_of_instances": {
+				"constant_value": 2,
+			},
+			"os": {
+				"constant_value": "RHEL8",
+			},
+			"security_groups": {
+				"constant_value": [
+					"sg-0db5b7ffad9e867d8",
+				],
+			},
+			"tags": {
+				"constant_value": {
+					"apms-id":              "APMS-99999",
+					"application-name":     "terraform development",
+					"application-owner-id": "corydon.wood@takeda.com",
+					"business-unit-n1":     "CTO",
+					"business-unit-n2":     "CTO Enterprise Cloud Services",
+					"environment-id":       "dev",
+					"it-technical-owner":   "corydon.wood@takeda.com",
+					"ops-exclude-patch":    "S1",
+				},
+			},
+		},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "",
+		"name":               "takeda_ec2_instance",
+		"source":             "../",
+		"version_constraint": "",
+	},
+	"takeda_ec2_instance_web": {
+		"config": {
+			"bootstrap_override": {
+				"constant_value": true,
+			},
+			"custom_bootstrap": {
+				"constant_value": "",
+			},
+			"instance_tier": {
+				"constant_value": "web",
+			},
+			"number_of_instances": {
+				"constant_value": 2,
+			},
+			"os": {
+				"constant_value": "Windows2019",
+			},
+			"root_volume_size": {
+				"constant_value": 50,
+			},
+			"security_groups": {
+				"constant_value": [
+					"sg-076ec95e3af133ce3",
+				],
+			},
+			"tags": {
+				"constant_value": {
+					"apms-id":              "APMS-99999",
+					"application-name":     "terraform development",
+					"application-owner-id": "corydon.wood@takeda.com",
+					"business-unit-n1":     "CTO",
+					"business-unit-n2":     "CTO Enterprise Cloud Services",
+					"environment-id":       "dev",
+					"it-technical-owner":   "corydon.wood@takeda.com",
+					"ops-exclude-patch":    "S1",
+				},
+			},
+		},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+		"module_address":     "",
+		"name":               "takeda_ec2_instance_web",
+		"source":             "../",
+		"version_constraint": "",
+	},
+}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}

@@ -1,0 +1,2352 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {},
+		"modules": {
+			"takeda_ec2_instance": {
+				"config": {
+					"bootstrap_override":  true,
+					"custom_bootstrap":    "",
+					"number_of_instances": 2,
+					"os": "RHEL8",
+					"security_groups": [
+						"sg-0db5b7ffad9e867d8",
+					],
+					"tags": {
+						"apms-id":              "APMS-99999",
+						"application-name":     "terraform development",
+						"application-owner-id": "corydon.wood@takeda.com",
+						"business-unit-n1":     "CTO",
+						"business-unit-n2":     "CTO Enterprise Cloud Services",
+						"environment-id":       "dev",
+						"it-technical-owner":   "corydon.wood@takeda.com",
+						"ops-exclude-patch":    "S1",
+					},
+				},
+				"references": {
+					"bootstrap_override":  [],
+					"custom_bootstrap":    [],
+					"number_of_instances": [],
+					"os":              [],
+					"security_groups": [],
+					"tags":            [],
+				},
+				"source":  "../",
+				"version": "",
+			},
+			"takeda_ec2_instance_web": {
+				"config": {
+					"bootstrap_override":  true,
+					"custom_bootstrap":    "",
+					"instance_tier":       "web",
+					"number_of_instances": 2,
+					"os":               "Windows2019",
+					"root_volume_size": 50,
+					"security_groups": [
+						"sg-076ec95e3af133ce3",
+					],
+					"tags": {
+						"apms-id":              "APMS-99999",
+						"application-name":     "terraform development",
+						"application-owner-id": "corydon.wood@takeda.com",
+						"business-unit-n1":     "CTO",
+						"business-unit-n2":     "CTO Enterprise Cloud Services",
+						"environment-id":       "dev",
+						"it-technical-owner":   "corydon.wood@takeda.com",
+						"ops-exclude-patch":    "S1",
+					},
+				},
+				"references": {
+					"bootstrap_override":  [],
+					"custom_bootstrap":    [],
+					"instance_tier":       [],
+					"number_of_instances": [],
+					"os":               [],
+					"root_volume_size": [],
+					"security_groups":  [],
+					"tags":             [],
+				},
+				"source":  "../",
+				"version": "",
+			},
+		},
+		"outputs": {
+			"app_instance": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.takeda_ec2_instance.instance",
+					"module.takeda_ec2_instance",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"subnet": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.takeda_ec2_instance.subnet",
+					"module.takeda_ec2_instance",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"web_instance": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.takeda_ec2_instance_web.instance",
+					"module.takeda_ec2_instance_web",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {},
+		"resources": {},
+		"variables": {},
+	},
+
+	"module.takeda_ec2_instance": {
+		"data": {},
+		"modules": {
+			"ec2_instance": {
+				"config": {},
+				"references": {
+					"bootstrap_override": [
+						"var.bootstrap_override",
+					],
+					"custom_bootstrap": [
+						"var.custom_bootstrap",
+					],
+					"instance_tier": [
+						"var.instance_tier",
+					],
+					"instance_type": [
+						"var.instance_type",
+					],
+					"number_of_instances": [
+						"var.number_of_instances",
+					],
+					"okta_asa_key": [
+						"var.okta_asa_key",
+					],
+					"os": [
+						"var.os",
+					],
+					"root_volume_size": [
+						"var.root_volume_size",
+					],
+					"security_groups": [
+						"var.security_groups",
+					],
+					"tags": [
+						"var.tags",
+					],
+				},
+				"source":  "./modules/instance",
+				"version": "",
+			},
+		},
+		"outputs": {
+			"instance": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.ec2_instance.instance",
+					"module.ec2_instance",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"subnet": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.ec2_instance.subnet_shuffle",
+					"module.ec2_instance",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config": {},
+						"references": {
+							"region": [
+								"var.region",
+							],
+						},
+						"version": "4.13.0",
+					},
+				},
+				"config": {},
+				"references": {
+					"region": [
+						"var.region",
+					],
+				},
+				"version": "4.13.0",
+			},
+		},
+		"resources": {},
+		"variables": {
+			"bootstrap_override": {
+				"default":     false,
+				"description": "Set to true only if a custom bootstrap script is required",
+			},
+			"custom_bootstrap": {
+				"default":     "",
+				"description": "If bootstrap overide is enabled pass script as a string in this variable",
+			},
+			"instance_tier": {
+				"default":     "app",
+				"description": "Network tier to place the instances valid values are app, web, dat",
+			},
+			"instance_type": {
+				"default":     "m5.large",
+				"description": "Instance type for all instances built by this module",
+			},
+			"number_of_instances": {
+				"default":     1,
+				"description": "Integer number of instances to be created using the specifications descibed for this module",
+			},
+			"okta_asa_key": {
+				"default":     "",
+				"description": "Token to enroll instances in Okta ASA for remote access",
+			},
+			"os": {
+				"default":     null,
+				"description": "Select from approved operating systems RHEL8, RHEL7, Windows2019, Windows2016, Windows2019AD, Windows2016AD, or AZL2.",
+			},
+			"region": {
+				"default":     "us-east-1",
+				"description": "Region to deploy the instances",
+			},
+			"root_volume_size": {
+				"default":     50,
+				"description": "Size of root volume, minimum is 50",
+			},
+			"security_groups": {
+				"default":     null,
+				"description": "List of security group ids to attach to the instances created by this module",
+			},
+			"tags": {
+				"default":     null,
+				"description": "Tags as required by Tagging Standard, see README for more details",
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance.module.ec2_instance": {
+		"data": {
+			"aws_kms_alias": {
+				"ebs_key": {
+					"config": {
+						"name": "alias/TEC-EBS",
+					},
+					"provisioners": null,
+					"references": {
+						"name": [],
+					},
+				},
+			},
+			"aws_ssm_parameter": {
+				"ami_id": {
+					"config":       {},
+					"provisioners": null,
+					"references": {
+						"name": [
+							"local.ami_location",
+						],
+					},
+				},
+			},
+			"aws_subnets": {
+				"subnets": {
+					"config": {
+						"filter": [
+							{
+								"name": "vpc-id",
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"filter": [
+							{
+								"name": [],
+								"values": [
+									"data.aws_vpc.vpc.id",
+									"data.aws_vpc.vpc",
+								],
+							},
+						],
+						"tags": [
+							"data.aws_vpc.vpc.tags.Name",
+							"data.aws_vpc.vpc.tags",
+							"data.aws_vpc.vpc",
+							"var.instance_tier",
+						],
+					},
+				},
+			},
+			"aws_vpc": {
+				"vpc": {
+					"config": {
+						"filter": [
+							{
+								"name": "tag:Name",
+								"values": [
+									"*-shr-*",
+								],
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"filter": [
+							{
+								"name":   [],
+								"values": [],
+							},
+						],
+					},
+				},
+			},
+		},
+		"modules": {
+			"ec2-instance": {
+				"config": {
+					"iam_instance_profile": "TEC-EC2-SSM",
+				},
+				"references": {
+					"ami": [
+						"data.aws_ssm_parameter.ami_id.value",
+						"data.aws_ssm_parameter.ami_id",
+					],
+					"iam_instance_profile": [],
+					"instance_type": [
+						"var.instance_type",
+					],
+					"name": [
+						"var.os-prfix",
+						"var.os",
+						"var.region_code",
+						"var.region",
+						"var.tags",
+						"var.tags",
+						"count.index",
+					],
+					"root_block_device": [
+						"var.root_volume_size",
+					],
+					"subnet_id": [
+						"random_shuffle.subnet.result[0]",
+						"random_shuffle.subnet.result",
+						"random_shuffle.subnet",
+					],
+					"tags": [
+						"var.tags",
+					],
+					"user_data_base64": [
+						"local.bootsrap_script",
+					],
+					"volume_tags": [
+						"var.tags",
+					],
+					"vpc_security_group_ids": [
+						"var.security_groups",
+					],
+				},
+				"source":  "terraform-aws-modules/ec2-instance/aws",
+				"version": "4.0.0",
+			},
+		},
+		"outputs": {
+			"instance": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.ec2-instance[0].id",
+					"module.ec2-instance[0]",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"subnet_shuffle": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"random_shuffle.subnet.result",
+					"random_shuffle.subnet",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {},
+		"resources": {
+			"random_shuffle": {
+				"subnet": {
+					"config": {
+						"result_count": 1,
+					},
+					"provisioners": null,
+					"references": {
+						"input": [
+							"data.aws_subnets.subnets.ids",
+							"data.aws_subnets.subnets",
+						],
+						"result_count": [],
+					},
+				},
+			},
+		},
+		"variables": {
+			"bootstrap_override": {
+				"default":     false,
+				"description": "",
+			},
+			"custom_bootstrap": {
+				"default":     "",
+				"description": "",
+			},
+			"instance_tier": {
+				"default":     null,
+				"description": "",
+			},
+			"instance_type": {
+				"default":     null,
+				"description": "",
+			},
+			"number_of_instances": {
+				"default":     null,
+				"description": "",
+			},
+			"okta_asa_key": {
+				"default":     "",
+				"description": "",
+			},
+			"os": {
+				"default":     null,
+				"description": "",
+			},
+			"os-lookup": {
+				"default": {
+					"RHEL7":         "/tec/golden-ami/RHEL7/ami-id",
+					"RHEL8":         "/tec/golden-ami/RHEL8/ami-id",
+					"Windows2016":   "/tec/golden-ami/Windows2016/NonDomainJoined/ami-id",
+					"Windows2016AD": "/tec/golden-ami/Windows2016/DomainJoined/ami-id",
+					"Windows2019":   "/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+					"Windows2019AD": "/tec/golden-ami/Windows2019/DomainJoined/ami-id",
+				},
+				"description": "",
+			},
+			"os-prfix": {
+				"default": {
+					"AZL2":        "X",
+					"RHEL7":       "X",
+					"RHEL8":       "X",
+					"Windows2016": "W",
+					"Windows2019": "W",
+				},
+				"description": "",
+			},
+			"region": {
+				"default":     "us-east-1",
+				"description": "",
+			},
+			"region_code": {
+				"default": {
+					"ap-northeast-1": "JPTYO",
+					"ap-southeast-1": "SGSIN",
+					"eu-central-1":   "DEFRA",
+					"eu-west-1":      "IEDUB",
+					"us-east-1":      "USVGA",
+					"us-west-2":      "USORG",
+				},
+				"description": "",
+			},
+			"root_volume_size": {
+				"default":     50,
+				"description": "",
+			},
+			"security_groups": {
+				"default":     null,
+				"description": "",
+			},
+			"tags": {
+				"default":     null,
+				"description": "",
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance": {
+		"data":    {},
+		"modules": {},
+		"outputs": {
+			"arn": {
+				"depends_on":  [],
+				"description": "The ARN of the instance",
+				"references": [
+					"aws_instance.this[0].arn",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].arn",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"capacity_reservation_specification": {
+				"depends_on":  [],
+				"description": "Capacity reservation specification of the instance",
+				"references": [
+					"aws_instance.this[0].capacity_reservation_specification",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].capacity_reservation_specification",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"id": {
+				"depends_on":  [],
+				"description": "The ID of the instance",
+				"references": [
+					"aws_instance.this[0].id",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].id",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"instance_state": {
+				"depends_on":  [],
+				"description": "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`",
+				"references": [
+					"aws_instance.this[0].instance_state",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].instance_state",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"ipv6_addresses": {
+				"depends_on":  [],
+				"description": "The IPv6 address assigned to the instance, if applicable.",
+				"references": [
+					"aws_instance.this[0].ipv6_addresses",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"outpost_arn": {
+				"depends_on":  [],
+				"description": "The ARN of the Outpost the instance is assigned to",
+				"references": [
+					"aws_instance.this[0].outpost_arn",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].outpost_arn",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"password_data": {
+				"depends_on":  [],
+				"description": "Base-64 encoded encrypted password data for the instance. Useful for getting the administrator password for instances running Microsoft Windows. This attribute is only exported if `get_password_data` is true",
+				"references": [
+					"aws_instance.this[0].password_data",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].password_data",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"primary_network_interface_id": {
+				"depends_on":  [],
+				"description": "The ID of the instance's primary network interface",
+				"references": [
+					"aws_instance.this[0].primary_network_interface_id",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].primary_network_interface_id",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"private_dns": {
+				"depends_on":  [],
+				"description": "The private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC",
+				"references": [
+					"aws_instance.this[0].private_dns",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].private_dns",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"private_ip": {
+				"depends_on":  [],
+				"description": "The private IP address assigned to the instance.",
+				"references": [
+					"aws_instance.this[0].private_ip",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].private_ip",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"public_dns": {
+				"depends_on":  [],
+				"description": "The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC",
+				"references": [
+					"aws_instance.this[0].public_dns",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].public_dns",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"public_ip": {
+				"depends_on":  [],
+				"description": "The public IP address assigned to the instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached",
+				"references": [
+					"aws_instance.this[0].public_ip",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].public_ip",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"spot_bid_status": {
+				"depends_on":  [],
+				"description": "The current bid status of the Spot Instance Request",
+				"references": [
+					"aws_spot_instance_request.this[0].spot_bid_status",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"spot_instance_id": {
+				"depends_on":  [],
+				"description": "The Instance ID (if any) that is currently fulfilling the Spot Instance request",
+				"references": [
+					"aws_spot_instance_request.this[0].spot_instance_id",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"spot_request_state": {
+				"depends_on":  [],
+				"description": "The current request state of the Spot Instance Request",
+				"references": [
+					"aws_spot_instance_request.this[0].spot_request_state",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"tags_all": {
+				"depends_on":  [],
+				"description": "A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block",
+				"references": [
+					"aws_instance.this[0].tags_all",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].tags_all",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config":     {},
+						"references": {},
+						"version":    ">= 4.7.0",
+					},
+				},
+				"config":     {},
+				"references": {},
+				"version":    ">= 4.7.0",
+			},
+		},
+		"resources": {
+			"aws_instance": {
+				"this": {
+					"config": {
+						"credit_specification": [
+							{},
+						],
+						"enclave_options": [
+							{},
+						],
+						"timeouts": null,
+					},
+					"provisioners": null,
+					"references": {
+						"ami": [
+							"var.ami",
+						],
+						"associate_public_ip_address": [
+							"var.associate_public_ip_address",
+						],
+						"availability_zone": [
+							"var.availability_zone",
+						],
+						"cpu_core_count": [
+							"var.cpu_core_count",
+						],
+						"cpu_threads_per_core": [
+							"var.cpu_threads_per_core",
+						],
+						"credit_specification": [
+							{
+								"cpu_credits": [
+									"local.is_t_instance_type",
+									"var.cpu_credits",
+								],
+							},
+						],
+						"disable_api_termination": [
+							"var.disable_api_termination",
+						],
+						"ebs_optimized": [
+							"var.ebs_optimized",
+						],
+						"enclave_options": [
+							{
+								"enabled": [
+									"var.enclave_options_enabled",
+								],
+							},
+						],
+						"get_password_data": [
+							"var.get_password_data",
+						],
+						"hibernation": [
+							"var.hibernation",
+						],
+						"host_id": [
+							"var.host_id",
+						],
+						"iam_instance_profile": [
+							"var.iam_instance_profile",
+						],
+						"instance_initiated_shutdown_behavior": [
+							"var.instance_initiated_shutdown_behavior",
+						],
+						"instance_type": [
+							"var.instance_type",
+						],
+						"ipv6_address_count": [
+							"var.ipv6_address_count",
+						],
+						"ipv6_addresses": [
+							"var.ipv6_addresses",
+						],
+						"key_name": [
+							"var.key_name",
+						],
+						"monitoring": [
+							"var.monitoring",
+						],
+						"placement_group": [
+							"var.placement_group",
+						],
+						"private_ip": [
+							"var.private_ip",
+						],
+						"secondary_private_ips": [
+							"var.secondary_private_ips",
+						],
+						"source_dest_check": [
+							"var.network_interface",
+							"var.source_dest_check",
+						],
+						"subnet_id": [
+							"var.subnet_id",
+						],
+						"tags": [
+							"var.name",
+							"var.tags",
+						],
+						"tenancy": [
+							"var.tenancy",
+						],
+						"timeouts": [],
+						"user_data": [
+							"var.user_data",
+						],
+						"user_data_base64": [
+							"var.user_data_base64",
+						],
+						"user_data_replace_on_change": [
+							"var.user_data_replace_on_change",
+						],
+						"volume_tags": [
+							"var.enable_volume_tags",
+							"var.name",
+							"var.volume_tags",
+						],
+						"vpc_security_group_ids": [
+							"var.vpc_security_group_ids",
+						],
+					},
+				},
+			},
+			"aws_spot_instance_request": {
+				"this": {
+					"config": {
+						"credit_specification": [
+							{},
+						],
+						"enclave_options": [
+							{},
+						],
+						"timeouts": null,
+					},
+					"provisioners": null,
+					"references": {
+						"ami": [
+							"var.ami",
+						],
+						"associate_public_ip_address": [
+							"var.associate_public_ip_address",
+						],
+						"availability_zone": [
+							"var.availability_zone",
+						],
+						"block_duration_minutes": [
+							"var.spot_block_duration_minutes",
+						],
+						"cpu_core_count": [
+							"var.cpu_core_count",
+						],
+						"cpu_threads_per_core": [
+							"var.cpu_threads_per_core",
+						],
+						"credit_specification": [
+							{
+								"cpu_credits": [
+									"local.is_t_instance_type",
+									"var.cpu_credits",
+								],
+							},
+						],
+						"disable_api_termination": [
+							"var.disable_api_termination",
+						],
+						"ebs_optimized": [
+							"var.ebs_optimized",
+						],
+						"enclave_options": [
+							{
+								"enabled": [
+									"var.enclave_options_enabled",
+								],
+							},
+						],
+						"get_password_data": [
+							"var.get_password_data",
+						],
+						"hibernation": [
+							"var.hibernation",
+						],
+						"host_id": [
+							"var.host_id",
+						],
+						"iam_instance_profile": [
+							"var.iam_instance_profile",
+						],
+						"instance_initiated_shutdown_behavior": [
+							"var.instance_initiated_shutdown_behavior",
+						],
+						"instance_interruption_behavior": [
+							"var.spot_instance_interruption_behavior",
+						],
+						"instance_type": [
+							"var.instance_type",
+						],
+						"ipv6_address_count": [
+							"var.ipv6_address_count",
+						],
+						"ipv6_addresses": [
+							"var.ipv6_addresses",
+						],
+						"key_name": [
+							"var.key_name",
+						],
+						"launch_group": [
+							"var.spot_launch_group",
+						],
+						"monitoring": [
+							"var.monitoring",
+						],
+						"placement_group": [
+							"var.placement_group",
+						],
+						"private_ip": [
+							"var.private_ip",
+						],
+						"secondary_private_ips": [
+							"var.secondary_private_ips",
+						],
+						"source_dest_check": [
+							"var.network_interface",
+							"var.source_dest_check",
+						],
+						"spot_price": [
+							"var.spot_price",
+						],
+						"spot_type": [
+							"var.spot_type",
+						],
+						"subnet_id": [
+							"var.subnet_id",
+						],
+						"tags": [
+							"var.name",
+							"var.tags",
+						],
+						"tenancy": [
+							"var.tenancy",
+						],
+						"timeouts": [],
+						"user_data": [
+							"var.user_data",
+						],
+						"user_data_base64": [
+							"var.user_data_base64",
+						],
+						"user_data_replace_on_change": [
+							"var.user_data_replace_on_change",
+						],
+						"valid_from": [
+							"var.spot_valid_from",
+						],
+						"valid_until": [
+							"var.spot_valid_until",
+						],
+						"volume_tags": [
+							"var.enable_volume_tags",
+							"var.name",
+							"var.volume_tags",
+						],
+						"vpc_security_group_ids": [
+							"var.vpc_security_group_ids",
+						],
+						"wait_for_fulfillment": [
+							"var.spot_wait_for_fulfillment",
+						],
+					},
+				},
+			},
+		},
+		"variables": {
+			"ami": {
+				"default":     "",
+				"description": "ID of AMI to use for the instance",
+			},
+			"associate_public_ip_address": {
+				"default":     null,
+				"description": "Whether to associate a public IP address with an instance in a VPC",
+			},
+			"availability_zone": {
+				"default":     null,
+				"description": "AZ to start the instance in",
+			},
+			"capacity_reservation_specification": {
+				"default":     null,
+				"description": "Describes an instance's Capacity Reservation targeting option",
+			},
+			"cpu_core_count": {
+				"default":     null,
+				"description": "Sets the number of CPU cores for an instance.",
+			},
+			"cpu_credits": {
+				"default":     null,
+				"description": "The credit option for CPU usage (unlimited or standard)",
+			},
+			"cpu_threads_per_core": {
+				"default":     null,
+				"description": "Sets the number of CPU threads per core for an instance (has no effect unless cpu_core_count is also set).",
+			},
+			"create": {
+				"default":     true,
+				"description": "Whether to create an instance",
+			},
+			"create_spot_instance": {
+				"default":     false,
+				"description": "Depicts if the instance is a spot instance",
+			},
+			"disable_api_termination": {
+				"default":     null,
+				"description": "If true, enables EC2 Instance Termination Protection",
+			},
+			"ebs_block_device": {
+				"default":     [],
+				"description": "Additional EBS block devices to attach to the instance",
+			},
+			"ebs_optimized": {
+				"default":     null,
+				"description": "If true, the launched EC2 instance will be EBS-optimized",
+			},
+			"enable_volume_tags": {
+				"default":     true,
+				"description": "Whether to enable volume tags (if enabled it conflicts with root_block_device tags)",
+			},
+			"enclave_options_enabled": {
+				"default":     null,
+				"description": "Whether Nitro Enclaves will be enabled on the instance. Defaults to `false`",
+			},
+			"ephemeral_block_device": {
+				"default":     [],
+				"description": "Customize Ephemeral (also known as Instance Store) volumes on the instance",
+			},
+			"get_password_data": {
+				"default":     null,
+				"description": "If true, wait for password data to become available and retrieve it.",
+			},
+			"hibernation": {
+				"default":     null,
+				"description": "If true, the launched EC2 instance will support hibernation",
+			},
+			"host_id": {
+				"default":     null,
+				"description": "ID of a dedicated host that the instance will be assigned to. Use when an instance is to be launched on a specific dedicated host",
+			},
+			"iam_instance_profile": {
+				"default":     null,
+				"description": "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile",
+			},
+			"instance_initiated_shutdown_behavior": {
+				"default":     null,
+				"description": "Shutdown behavior for the instance. Amazon defaults this to stop for EBS-backed instances and terminate for instance-store instances. Cannot be set on instance-store instance",
+			},
+			"instance_type": {
+				"default":     "t3.micro",
+				"description": "The type of instance to start",
+			},
+			"ipv6_address_count": {
+				"default":     null,
+				"description": "A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet",
+			},
+			"ipv6_addresses": {
+				"default":     null,
+				"description": "Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface",
+			},
+			"key_name": {
+				"default":     null,
+				"description": "Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource",
+			},
+			"launch_template": {
+				"default":     null,
+				"description": "Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template",
+			},
+			"metadata_options": {
+				"default":     {},
+				"description": "Customize the metadata options of the instance",
+			},
+			"monitoring": {
+				"default":     false,
+				"description": "If true, the launched EC2 instance will have detailed monitoring enabled",
+			},
+			"name": {
+				"default":     "",
+				"description": "Name to be used on EC2 instance created",
+			},
+			"network_interface": {
+				"default":     [],
+				"description": "Customize network interfaces to be attached at instance boot time",
+			},
+			"placement_group": {
+				"default":     null,
+				"description": "The Placement Group to start the instance in",
+			},
+			"private_ip": {
+				"default":     null,
+				"description": "Private IP address to associate with the instance in a VPC",
+			},
+			"putin_khuylo": {
+				"default":     true,
+				"description": "Do you agree that Putin doesn't respect Ukrainian sovereignty and territorial integrity? More info: https://en.wikipedia.org/wiki/Putin_khuylo!",
+			},
+			"root_block_device": {
+				"default":     [],
+				"description": "Customize details about the root block device of the instance. See Block Devices below for details",
+			},
+			"secondary_private_ips": {
+				"default":     null,
+				"description": "A list of secondary private IPv4 addresses to assign to the instance's primary network interface (eth0) in a VPC. Can only be assigned to the primary network interface (eth0) attached at instance creation, not a pre-existing network interface i.e. referenced in a `network_interface block`",
+			},
+			"source_dest_check": {
+				"default":     true,
+				"description": "Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs.",
+			},
+			"spot_block_duration_minutes": {
+				"default":     null,
+				"description": "The required duration for the Spot instances, in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360)",
+			},
+			"spot_instance_interruption_behavior": {
+				"default":     null,
+				"description": "Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`",
+			},
+			"spot_launch_group": {
+				"default":     null,
+				"description": "A launch group is a group of spot instances that launch together and terminate together. If left empty instances are launched and terminated individually",
+			},
+			"spot_price": {
+				"default":     null,
+				"description": "The maximum price to request on the spot market. Defaults to on-demand price",
+			},
+			"spot_type": {
+				"default":     null,
+				"description": "If set to one-time, after the instance is terminated, the spot request will be closed. Default `persistent`",
+			},
+			"spot_valid_from": {
+				"default":     null,
+				"description": "The start date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+			},
+			"spot_valid_until": {
+				"default":     null,
+				"description": "The end date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+			},
+			"spot_wait_for_fulfillment": {
+				"default":     null,
+				"description": "If set, Terraform will wait for the Spot Request to be fulfilled, and will throw an error if the timeout of 10m is reached",
+			},
+			"subnet_id": {
+				"default":     null,
+				"description": "The VPC Subnet ID to launch in",
+			},
+			"tags": {
+				"default":     {},
+				"description": "A mapping of tags to assign to the resource",
+			},
+			"tenancy": {
+				"default":     null,
+				"description": "The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host.",
+			},
+			"timeouts": {
+				"default":     {},
+				"description": "Define maximum timeout for creating, updating, and deleting EC2 instance resources",
+			},
+			"user_data": {
+				"default":     null,
+				"description": "The user data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see user_data_base64 instead.",
+			},
+			"user_data_base64": {
+				"default":     null,
+				"description": "Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption.",
+			},
+			"user_data_replace_on_change": {
+				"default":     false,
+				"description": "When used in combination with user_data or user_data_base64 will trigger a destroy and recreate when set to true. Defaults to false if not set.",
+			},
+			"volume_tags": {
+				"default":     {},
+				"description": "A mapping of tags to assign to the devices created by the instance at launch time",
+			},
+			"vpc_security_group_ids": {
+				"default":     null,
+				"description": "A list of security group IDs to associate with",
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance_web": {
+		"data": {},
+		"modules": {
+			"ec2_instance": {
+				"config": {},
+				"references": {
+					"bootstrap_override": [
+						"var.bootstrap_override",
+					],
+					"custom_bootstrap": [
+						"var.custom_bootstrap",
+					],
+					"instance_tier": [
+						"var.instance_tier",
+					],
+					"instance_type": [
+						"var.instance_type",
+					],
+					"number_of_instances": [
+						"var.number_of_instances",
+					],
+					"okta_asa_key": [
+						"var.okta_asa_key",
+					],
+					"os": [
+						"var.os",
+					],
+					"root_volume_size": [
+						"var.root_volume_size",
+					],
+					"security_groups": [
+						"var.security_groups",
+					],
+					"tags": [
+						"var.tags",
+					],
+				},
+				"source":  "./modules/instance",
+				"version": "",
+			},
+		},
+		"outputs": {
+			"instance": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.ec2_instance.instance",
+					"module.ec2_instance",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"subnet": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.ec2_instance.subnet_shuffle",
+					"module.ec2_instance",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config": {},
+						"references": {
+							"region": [
+								"var.region",
+							],
+						},
+						"version": "4.13.0",
+					},
+				},
+				"config": {},
+				"references": {
+					"region": [
+						"var.region",
+					],
+				},
+				"version": "4.13.0",
+			},
+		},
+		"resources": {},
+		"variables": {
+			"bootstrap_override": {
+				"default":     false,
+				"description": "Set to true only if a custom bootstrap script is required",
+			},
+			"custom_bootstrap": {
+				"default":     "",
+				"description": "If bootstrap overide is enabled pass script as a string in this variable",
+			},
+			"instance_tier": {
+				"default":     "app",
+				"description": "Network tier to place the instances valid values are app, web, dat",
+			},
+			"instance_type": {
+				"default":     "m5.large",
+				"description": "Instance type for all instances built by this module",
+			},
+			"number_of_instances": {
+				"default":     1,
+				"description": "Integer number of instances to be created using the specifications descibed for this module",
+			},
+			"okta_asa_key": {
+				"default":     "",
+				"description": "Token to enroll instances in Okta ASA for remote access",
+			},
+			"os": {
+				"default":     null,
+				"description": "Select from approved operating systems RHEL8, RHEL7, Windows2019, Windows2016, Windows2019AD, Windows2016AD, or AZL2.",
+			},
+			"region": {
+				"default":     "us-east-1",
+				"description": "Region to deploy the instances",
+			},
+			"root_volume_size": {
+				"default":     50,
+				"description": "Size of root volume, minimum is 50",
+			},
+			"security_groups": {
+				"default":     null,
+				"description": "List of security group ids to attach to the instances created by this module",
+			},
+			"tags": {
+				"default":     null,
+				"description": "Tags as required by Tagging Standard, see README for more details",
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance_web.module.ec2_instance": {
+		"data": {
+			"aws_kms_alias": {
+				"ebs_key": {
+					"config": {
+						"name": "alias/TEC-EBS",
+					},
+					"provisioners": null,
+					"references": {
+						"name": [],
+					},
+				},
+			},
+			"aws_ssm_parameter": {
+				"ami_id": {
+					"config":       {},
+					"provisioners": null,
+					"references": {
+						"name": [
+							"local.ami_location",
+						],
+					},
+				},
+			},
+			"aws_subnets": {
+				"subnets": {
+					"config": {
+						"filter": [
+							{
+								"name": "vpc-id",
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"filter": [
+							{
+								"name": [],
+								"values": [
+									"data.aws_vpc.vpc.id",
+									"data.aws_vpc.vpc",
+								],
+							},
+						],
+						"tags": [
+							"data.aws_vpc.vpc.tags.Name",
+							"data.aws_vpc.vpc.tags",
+							"data.aws_vpc.vpc",
+							"var.instance_tier",
+						],
+					},
+				},
+			},
+			"aws_vpc": {
+				"vpc": {
+					"config": {
+						"filter": [
+							{
+								"name": "tag:Name",
+								"values": [
+									"*-shr-*",
+								],
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"filter": [
+							{
+								"name":   [],
+								"values": [],
+							},
+						],
+					},
+				},
+			},
+		},
+		"modules": {
+			"ec2-instance": {
+				"config": {
+					"iam_instance_profile": "TEC-EC2-SSM",
+				},
+				"references": {
+					"ami": [
+						"data.aws_ssm_parameter.ami_id.value",
+						"data.aws_ssm_parameter.ami_id",
+					],
+					"iam_instance_profile": [],
+					"instance_type": [
+						"var.instance_type",
+					],
+					"name": [
+						"var.os-prfix",
+						"var.os",
+						"var.region_code",
+						"var.region",
+						"var.tags",
+						"var.tags",
+						"count.index",
+					],
+					"root_block_device": [
+						"var.root_volume_size",
+					],
+					"subnet_id": [
+						"random_shuffle.subnet.result[0]",
+						"random_shuffle.subnet.result",
+						"random_shuffle.subnet",
+					],
+					"tags": [
+						"var.tags",
+					],
+					"user_data_base64": [
+						"local.bootsrap_script",
+					],
+					"volume_tags": [
+						"var.tags",
+					],
+					"vpc_security_group_ids": [
+						"var.security_groups",
+					],
+				},
+				"source":  "terraform-aws-modules/ec2-instance/aws",
+				"version": "4.0.0",
+			},
+		},
+		"outputs": {
+			"instance": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.ec2-instance[0].id",
+					"module.ec2-instance[0]",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"subnet_shuffle": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"random_shuffle.subnet.result",
+					"random_shuffle.subnet",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {},
+		"resources": {
+			"random_shuffle": {
+				"subnet": {
+					"config": {
+						"result_count": 1,
+					},
+					"provisioners": null,
+					"references": {
+						"input": [
+							"data.aws_subnets.subnets.ids",
+							"data.aws_subnets.subnets",
+						],
+						"result_count": [],
+					},
+				},
+			},
+		},
+		"variables": {
+			"bootstrap_override": {
+				"default":     false,
+				"description": "",
+			},
+			"custom_bootstrap": {
+				"default":     "",
+				"description": "",
+			},
+			"instance_tier": {
+				"default":     null,
+				"description": "",
+			},
+			"instance_type": {
+				"default":     null,
+				"description": "",
+			},
+			"number_of_instances": {
+				"default":     null,
+				"description": "",
+			},
+			"okta_asa_key": {
+				"default":     "",
+				"description": "",
+			},
+			"os": {
+				"default":     null,
+				"description": "",
+			},
+			"os-lookup": {
+				"default": {
+					"RHEL7":         "/tec/golden-ami/RHEL7/ami-id",
+					"RHEL8":         "/tec/golden-ami/RHEL8/ami-id",
+					"Windows2016":   "/tec/golden-ami/Windows2016/NonDomainJoined/ami-id",
+					"Windows2016AD": "/tec/golden-ami/Windows2016/DomainJoined/ami-id",
+					"Windows2019":   "/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+					"Windows2019AD": "/tec/golden-ami/Windows2019/DomainJoined/ami-id",
+				},
+				"description": "",
+			},
+			"os-prfix": {
+				"default": {
+					"AZL2":        "X",
+					"RHEL7":       "X",
+					"RHEL8":       "X",
+					"Windows2016": "W",
+					"Windows2019": "W",
+				},
+				"description": "",
+			},
+			"region": {
+				"default":     "us-east-1",
+				"description": "",
+			},
+			"region_code": {
+				"default": {
+					"ap-northeast-1": "JPTYO",
+					"ap-southeast-1": "SGSIN",
+					"eu-central-1":   "DEFRA",
+					"eu-west-1":      "IEDUB",
+					"us-east-1":      "USVGA",
+					"us-west-2":      "USORG",
+				},
+				"description": "",
+			},
+			"root_volume_size": {
+				"default":     50,
+				"description": "",
+			},
+			"security_groups": {
+				"default":     null,
+				"description": "",
+			},
+			"tags": {
+				"default":     null,
+				"description": "",
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance": {
+		"data":    {},
+		"modules": {},
+		"outputs": {
+			"arn": {
+				"depends_on":  [],
+				"description": "The ARN of the instance",
+				"references": [
+					"aws_instance.this[0].arn",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].arn",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"capacity_reservation_specification": {
+				"depends_on":  [],
+				"description": "Capacity reservation specification of the instance",
+				"references": [
+					"aws_instance.this[0].capacity_reservation_specification",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].capacity_reservation_specification",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"id": {
+				"depends_on":  [],
+				"description": "The ID of the instance",
+				"references": [
+					"aws_instance.this[0].id",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].id",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"instance_state": {
+				"depends_on":  [],
+				"description": "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`",
+				"references": [
+					"aws_instance.this[0].instance_state",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].instance_state",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"ipv6_addresses": {
+				"depends_on":  [],
+				"description": "The IPv6 address assigned to the instance, if applicable.",
+				"references": [
+					"aws_instance.this[0].ipv6_addresses",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"outpost_arn": {
+				"depends_on":  [],
+				"description": "The ARN of the Outpost the instance is assigned to",
+				"references": [
+					"aws_instance.this[0].outpost_arn",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].outpost_arn",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"password_data": {
+				"depends_on":  [],
+				"description": "Base-64 encoded encrypted password data for the instance. Useful for getting the administrator password for instances running Microsoft Windows. This attribute is only exported if `get_password_data` is true",
+				"references": [
+					"aws_instance.this[0].password_data",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].password_data",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"primary_network_interface_id": {
+				"depends_on":  [],
+				"description": "The ID of the instance's primary network interface",
+				"references": [
+					"aws_instance.this[0].primary_network_interface_id",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].primary_network_interface_id",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"private_dns": {
+				"depends_on":  [],
+				"description": "The private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC",
+				"references": [
+					"aws_instance.this[0].private_dns",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].private_dns",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"private_ip": {
+				"depends_on":  [],
+				"description": "The private IP address assigned to the instance.",
+				"references": [
+					"aws_instance.this[0].private_ip",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].private_ip",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"public_dns": {
+				"depends_on":  [],
+				"description": "The public DNS name assigned to the instance. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC",
+				"references": [
+					"aws_instance.this[0].public_dns",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].public_dns",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"public_ip": {
+				"depends_on":  [],
+				"description": "The public IP address assigned to the instance, if applicable. NOTE: If you are using an aws_eip with your instance, you should refer to the EIP's address directly and not use `public_ip` as this field will change after the EIP is attached",
+				"references": [
+					"aws_instance.this[0].public_ip",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].public_ip",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"spot_bid_status": {
+				"depends_on":  [],
+				"description": "The current bid status of the Spot Instance Request",
+				"references": [
+					"aws_spot_instance_request.this[0].spot_bid_status",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"spot_instance_id": {
+				"depends_on":  [],
+				"description": "The Instance ID (if any) that is currently fulfilling the Spot Instance request",
+				"references": [
+					"aws_spot_instance_request.this[0].spot_instance_id",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"spot_request_state": {
+				"depends_on":  [],
+				"description": "The current request state of the Spot Instance Request",
+				"references": [
+					"aws_spot_instance_request.this[0].spot_request_state",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"tags_all": {
+				"depends_on":  [],
+				"description": "A map of tags assigned to the resource, including those inherited from the provider default_tags configuration block",
+				"references": [
+					"aws_instance.this[0].tags_all",
+					"aws_instance.this[0]",
+					"aws_instance.this",
+					"aws_spot_instance_request.this[0].tags_all",
+					"aws_spot_instance_request.this[0]",
+					"aws_spot_instance_request.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config":     {},
+						"references": {},
+						"version":    ">= 4.7.0",
+					},
+				},
+				"config":     {},
+				"references": {},
+				"version":    ">= 4.7.0",
+			},
+		},
+		"resources": {
+			"aws_instance": {
+				"this": {
+					"config": {
+						"credit_specification": [
+							{},
+						],
+						"enclave_options": [
+							{},
+						],
+						"timeouts": null,
+					},
+					"provisioners": null,
+					"references": {
+						"ami": [
+							"var.ami",
+						],
+						"associate_public_ip_address": [
+							"var.associate_public_ip_address",
+						],
+						"availability_zone": [
+							"var.availability_zone",
+						],
+						"cpu_core_count": [
+							"var.cpu_core_count",
+						],
+						"cpu_threads_per_core": [
+							"var.cpu_threads_per_core",
+						],
+						"credit_specification": [
+							{
+								"cpu_credits": [
+									"local.is_t_instance_type",
+									"var.cpu_credits",
+								],
+							},
+						],
+						"disable_api_termination": [
+							"var.disable_api_termination",
+						],
+						"ebs_optimized": [
+							"var.ebs_optimized",
+						],
+						"enclave_options": [
+							{
+								"enabled": [
+									"var.enclave_options_enabled",
+								],
+							},
+						],
+						"get_password_data": [
+							"var.get_password_data",
+						],
+						"hibernation": [
+							"var.hibernation",
+						],
+						"host_id": [
+							"var.host_id",
+						],
+						"iam_instance_profile": [
+							"var.iam_instance_profile",
+						],
+						"instance_initiated_shutdown_behavior": [
+							"var.instance_initiated_shutdown_behavior",
+						],
+						"instance_type": [
+							"var.instance_type",
+						],
+						"ipv6_address_count": [
+							"var.ipv6_address_count",
+						],
+						"ipv6_addresses": [
+							"var.ipv6_addresses",
+						],
+						"key_name": [
+							"var.key_name",
+						],
+						"monitoring": [
+							"var.monitoring",
+						],
+						"placement_group": [
+							"var.placement_group",
+						],
+						"private_ip": [
+							"var.private_ip",
+						],
+						"secondary_private_ips": [
+							"var.secondary_private_ips",
+						],
+						"source_dest_check": [
+							"var.network_interface",
+							"var.source_dest_check",
+						],
+						"subnet_id": [
+							"var.subnet_id",
+						],
+						"tags": [
+							"var.name",
+							"var.tags",
+						],
+						"tenancy": [
+							"var.tenancy",
+						],
+						"timeouts": [],
+						"user_data": [
+							"var.user_data",
+						],
+						"user_data_base64": [
+							"var.user_data_base64",
+						],
+						"user_data_replace_on_change": [
+							"var.user_data_replace_on_change",
+						],
+						"volume_tags": [
+							"var.enable_volume_tags",
+							"var.name",
+							"var.volume_tags",
+						],
+						"vpc_security_group_ids": [
+							"var.vpc_security_group_ids",
+						],
+					},
+				},
+			},
+			"aws_spot_instance_request": {
+				"this": {
+					"config": {
+						"credit_specification": [
+							{},
+						],
+						"enclave_options": [
+							{},
+						],
+						"timeouts": null,
+					},
+					"provisioners": null,
+					"references": {
+						"ami": [
+							"var.ami",
+						],
+						"associate_public_ip_address": [
+							"var.associate_public_ip_address",
+						],
+						"availability_zone": [
+							"var.availability_zone",
+						],
+						"block_duration_minutes": [
+							"var.spot_block_duration_minutes",
+						],
+						"cpu_core_count": [
+							"var.cpu_core_count",
+						],
+						"cpu_threads_per_core": [
+							"var.cpu_threads_per_core",
+						],
+						"credit_specification": [
+							{
+								"cpu_credits": [
+									"local.is_t_instance_type",
+									"var.cpu_credits",
+								],
+							},
+						],
+						"disable_api_termination": [
+							"var.disable_api_termination",
+						],
+						"ebs_optimized": [
+							"var.ebs_optimized",
+						],
+						"enclave_options": [
+							{
+								"enabled": [
+									"var.enclave_options_enabled",
+								],
+							},
+						],
+						"get_password_data": [
+							"var.get_password_data",
+						],
+						"hibernation": [
+							"var.hibernation",
+						],
+						"host_id": [
+							"var.host_id",
+						],
+						"iam_instance_profile": [
+							"var.iam_instance_profile",
+						],
+						"instance_initiated_shutdown_behavior": [
+							"var.instance_initiated_shutdown_behavior",
+						],
+						"instance_interruption_behavior": [
+							"var.spot_instance_interruption_behavior",
+						],
+						"instance_type": [
+							"var.instance_type",
+						],
+						"ipv6_address_count": [
+							"var.ipv6_address_count",
+						],
+						"ipv6_addresses": [
+							"var.ipv6_addresses",
+						],
+						"key_name": [
+							"var.key_name",
+						],
+						"launch_group": [
+							"var.spot_launch_group",
+						],
+						"monitoring": [
+							"var.monitoring",
+						],
+						"placement_group": [
+							"var.placement_group",
+						],
+						"private_ip": [
+							"var.private_ip",
+						],
+						"secondary_private_ips": [
+							"var.secondary_private_ips",
+						],
+						"source_dest_check": [
+							"var.network_interface",
+							"var.source_dest_check",
+						],
+						"spot_price": [
+							"var.spot_price",
+						],
+						"spot_type": [
+							"var.spot_type",
+						],
+						"subnet_id": [
+							"var.subnet_id",
+						],
+						"tags": [
+							"var.name",
+							"var.tags",
+						],
+						"tenancy": [
+							"var.tenancy",
+						],
+						"timeouts": [],
+						"user_data": [
+							"var.user_data",
+						],
+						"user_data_base64": [
+							"var.user_data_base64",
+						],
+						"user_data_replace_on_change": [
+							"var.user_data_replace_on_change",
+						],
+						"valid_from": [
+							"var.spot_valid_from",
+						],
+						"valid_until": [
+							"var.spot_valid_until",
+						],
+						"volume_tags": [
+							"var.enable_volume_tags",
+							"var.name",
+							"var.volume_tags",
+						],
+						"vpc_security_group_ids": [
+							"var.vpc_security_group_ids",
+						],
+						"wait_for_fulfillment": [
+							"var.spot_wait_for_fulfillment",
+						],
+					},
+				},
+			},
+		},
+		"variables": {
+			"ami": {
+				"default":     "",
+				"description": "ID of AMI to use for the instance",
+			},
+			"associate_public_ip_address": {
+				"default":     null,
+				"description": "Whether to associate a public IP address with an instance in a VPC",
+			},
+			"availability_zone": {
+				"default":     null,
+				"description": "AZ to start the instance in",
+			},
+			"capacity_reservation_specification": {
+				"default":     null,
+				"description": "Describes an instance's Capacity Reservation targeting option",
+			},
+			"cpu_core_count": {
+				"default":     null,
+				"description": "Sets the number of CPU cores for an instance.",
+			},
+			"cpu_credits": {
+				"default":     null,
+				"description": "The credit option for CPU usage (unlimited or standard)",
+			},
+			"cpu_threads_per_core": {
+				"default":     null,
+				"description": "Sets the number of CPU threads per core for an instance (has no effect unless cpu_core_count is also set).",
+			},
+			"create": {
+				"default":     true,
+				"description": "Whether to create an instance",
+			},
+			"create_spot_instance": {
+				"default":     false,
+				"description": "Depicts if the instance is a spot instance",
+			},
+			"disable_api_termination": {
+				"default":     null,
+				"description": "If true, enables EC2 Instance Termination Protection",
+			},
+			"ebs_block_device": {
+				"default":     [],
+				"description": "Additional EBS block devices to attach to the instance",
+			},
+			"ebs_optimized": {
+				"default":     null,
+				"description": "If true, the launched EC2 instance will be EBS-optimized",
+			},
+			"enable_volume_tags": {
+				"default":     true,
+				"description": "Whether to enable volume tags (if enabled it conflicts with root_block_device tags)",
+			},
+			"enclave_options_enabled": {
+				"default":     null,
+				"description": "Whether Nitro Enclaves will be enabled on the instance. Defaults to `false`",
+			},
+			"ephemeral_block_device": {
+				"default":     [],
+				"description": "Customize Ephemeral (also known as Instance Store) volumes on the instance",
+			},
+			"get_password_data": {
+				"default":     null,
+				"description": "If true, wait for password data to become available and retrieve it.",
+			},
+			"hibernation": {
+				"default":     null,
+				"description": "If true, the launched EC2 instance will support hibernation",
+			},
+			"host_id": {
+				"default":     null,
+				"description": "ID of a dedicated host that the instance will be assigned to. Use when an instance is to be launched on a specific dedicated host",
+			},
+			"iam_instance_profile": {
+				"default":     null,
+				"description": "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile",
+			},
+			"instance_initiated_shutdown_behavior": {
+				"default":     null,
+				"description": "Shutdown behavior for the instance. Amazon defaults this to stop for EBS-backed instances and terminate for instance-store instances. Cannot be set on instance-store instance",
+			},
+			"instance_type": {
+				"default":     "t3.micro",
+				"description": "The type of instance to start",
+			},
+			"ipv6_address_count": {
+				"default":     null,
+				"description": "A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet",
+			},
+			"ipv6_addresses": {
+				"default":     null,
+				"description": "Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface",
+			},
+			"key_name": {
+				"default":     null,
+				"description": "Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource",
+			},
+			"launch_template": {
+				"default":     null,
+				"description": "Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template",
+			},
+			"metadata_options": {
+				"default":     {},
+				"description": "Customize the metadata options of the instance",
+			},
+			"monitoring": {
+				"default":     false,
+				"description": "If true, the launched EC2 instance will have detailed monitoring enabled",
+			},
+			"name": {
+				"default":     "",
+				"description": "Name to be used on EC2 instance created",
+			},
+			"network_interface": {
+				"default":     [],
+				"description": "Customize network interfaces to be attached at instance boot time",
+			},
+			"placement_group": {
+				"default":     null,
+				"description": "The Placement Group to start the instance in",
+			},
+			"private_ip": {
+				"default":     null,
+				"description": "Private IP address to associate with the instance in a VPC",
+			},
+			"putin_khuylo": {
+				"default":     true,
+				"description": "Do you agree that Putin doesn't respect Ukrainian sovereignty and territorial integrity? More info: https://en.wikipedia.org/wiki/Putin_khuylo!",
+			},
+			"root_block_device": {
+				"default":     [],
+				"description": "Customize details about the root block device of the instance. See Block Devices below for details",
+			},
+			"secondary_private_ips": {
+				"default":     null,
+				"description": "A list of secondary private IPv4 addresses to assign to the instance's primary network interface (eth0) in a VPC. Can only be assigned to the primary network interface (eth0) attached at instance creation, not a pre-existing network interface i.e. referenced in a `network_interface block`",
+			},
+			"source_dest_check": {
+				"default":     true,
+				"description": "Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs.",
+			},
+			"spot_block_duration_minutes": {
+				"default":     null,
+				"description": "The required duration for the Spot instances, in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360)",
+			},
+			"spot_instance_interruption_behavior": {
+				"default":     null,
+				"description": "Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`",
+			},
+			"spot_launch_group": {
+				"default":     null,
+				"description": "A launch group is a group of spot instances that launch together and terminate together. If left empty instances are launched and terminated individually",
+			},
+			"spot_price": {
+				"default":     null,
+				"description": "The maximum price to request on the spot market. Defaults to on-demand price",
+			},
+			"spot_type": {
+				"default":     null,
+				"description": "If set to one-time, after the instance is terminated, the spot request will be closed. Default `persistent`",
+			},
+			"spot_valid_from": {
+				"default":     null,
+				"description": "The start date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+			},
+			"spot_valid_until": {
+				"default":     null,
+				"description": "The end date and time of the request, in UTC RFC3339 format(for example, YYYY-MM-DDTHH:MM:SSZ)",
+			},
+			"spot_wait_for_fulfillment": {
+				"default":     null,
+				"description": "If set, Terraform will wait for the Spot Request to be fulfilled, and will throw an error if the timeout of 10m is reached",
+			},
+			"subnet_id": {
+				"default":     null,
+				"description": "The VPC Subnet ID to launch in",
+			},
+			"tags": {
+				"default":     {},
+				"description": "A mapping of tags to assign to the resource",
+			},
+			"tenancy": {
+				"default":     null,
+				"description": "The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host.",
+			},
+			"timeouts": {
+				"default":     {},
+				"description": "Define maximum timeout for creating, updating, and deleting EC2 instance resources",
+			},
+			"user_data": {
+				"default":     null,
+				"description": "The user data to provide when launching the instance. Do not pass gzip-compressed data via this argument; see user_data_base64 instead.",
+			},
+			"user_data_base64": {
+				"default":     null,
+				"description": "Can be used instead of user_data to pass base64-encoded binary data directly. Use this instead of user_data whenever the value is not a valid UTF-8 string. For example, gzip-encoded user data must be base64-encoded and passed via this argument to avoid corruption.",
+			},
+			"user_data_replace_on_change": {
+				"default":     false,
+				"description": "When used in combination with user_data or user_data_base64 will trigger a destroy and recreate when set to true. Defaults to false if not set.",
+			},
+			"volume_tags": {
+				"default":     {},
+				"description": "A mapping of tags to assign to the devices created by the instance at launch time",
+			},
+			"vpc_security_group_ids": {
+				"default":     null,
+				"description": "A list of security group IDs to associate with",
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+	[
+		"takeda_ec2_instance",
+	],
+	[
+		"takeda_ec2_instance",
+		"ec2_instance",
+	],
+	[
+		"takeda_ec2_instance",
+		"ec2_instance",
+		"ec2-instance",
+	],
+	[
+		"takeda_ec2_instance_web",
+	],
+	[
+		"takeda_ec2_instance_web",
+		"ec2_instance",
+	],
+	[
+		"takeda_ec2_instance_web",
+		"ec2_instance",
+		"ec2-instance",
+	],
+]
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+modules = _modules.root.modules
+providers = _modules.root.providers
+resources = _modules.root.resources
+variables = _modules.root.variables
+outputs = _modules.root.outputs

@@ -1,0 +1,5 @@
+# Default owners for all code in the repository.
+# All PRs are reviewed by these teams unless a later line
+# overrides this.
+
+*       @oneTakeda/terraform-admin @oneTakeda/cpa-admins

@@ -1,0 +1,32 @@
+settings:
+  required: false
+
+content: |-
+  {{ .Header }}
+
+  # Examples
+  ```hcl
+  {{ include "examples/main.tf" }}
+
+  {{ include "examples/variables.tf" }}
+
+  {{ include "examples/outputs.tf" }}
+
+  {{ include "examples/terraform.tf" }}
+
+  {{ include "examples/providers.tf" }}
+  ```
+
+  {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Modules }}
+
+  {{ .Resources }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
+
+  {{ .Footer }}

@@ -1,0 +1,25 @@
+name: Terratest composite action
+
+on:
+  pull_request:
+  push:
+  
+jobs:
+  terratest-composite-action:
+    runs-on: ["self-hosted","aws-rhel8"]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Run reusable vault action
+      uses: onetakeda/tfbuildingblockdevs-terratest-composite-action@main
+      with:
+        go-version: 1.19
+        TERRATEST_TFE_TOKEN: ${{ secrets.TERRATEST_TFE_TOKEN }}
+        terraform-version: 1.3.1
+        vault-url: https://vault.ent.aws.takeda.io
+        method: approle
+        roleId: ${{secrets.TERRATEST_VAULT_APPROLE_ID}}
+        secretId: ${{secrets.TERRATEST_VAULT_SECRET_ID}}
+        go-test-timeout: 30m
+        terratest-logs-parser: v0.13.13
+        workspace-name: tec-dce-inn-dev-93400-terratest

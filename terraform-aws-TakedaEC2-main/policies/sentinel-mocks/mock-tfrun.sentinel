@@ -1,0 +1,41 @@
+id = "run-oS94pWVFHK3R86y3"
+created_at = "2022-05-13T19:20:14.368Z"
+message = "added docs"
+commit_sha = "fd00cb1a9567407de41e79979c7e1ea006d06578"
+speculative = false
+is_destroy = false
+refresh = true
+refresh_only = false
+replace_addrs = null
+target_addrs = null
+
+variables = {
+	"AWS_ACCESS_KEY_ID": {
+		"category":  "env",
+		"sensitive": true,
+	},
+	"AWS_SECRET_ACCESS_KEY": {
+		"category":  "env",
+		"sensitive": true,
+	},
+}
+
+organization = {
+	"name": "tec-sbx",
+}
+
+workspace = {
+	"auto_apply":  false,
+	"created_at":  "2022-05-11T14:27:14.143Z",
+	"description": null,
+	"id":          "ws-xkdANrVH6BrMFPFr",
+	"name":        "terraform-AWS-TakedaEC2",
+	"tags":        [],
+	"vcs_repo": {
+		"branch":             "",
+		"display_identifier": "oneTakeda/terraform-AWS-TakedaEC2",
+		"identifier":         "oneTakeda/terraform-AWS-TakedaEC2",
+		"ingress_submodules": false,
+	},
+	"working_directory": "/examples",
+}

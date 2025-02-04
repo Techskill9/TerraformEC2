@@ -1,0 +1,2670 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data":      {},
+		"path":      [],
+		"resources": {},
+	},
+
+	"module.takeda_ec2_instance.module.ec2_instance": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance",
+			"ec2_instance",
+		],
+		"resources": {
+			"random_shuffle": {
+				"subnet": {
+					0: {
+						"applied": {
+							"input": [
+								"subnet-0219d9e27b7805f36",
+								"subnet-0d46ee3738d625101",
+								"subnet-0b8bfb1d6541fd35e",
+							],
+							"keepers":      null,
+							"result_count": 1,
+							"seed":         null,
+						},
+						"destroy": false,
+						"diff": {
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"input.#": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"input.0": {
+								"computed": false,
+								"new":      "subnet-0219d9e27b7805f36",
+								"old":      "",
+							},
+							"input.1": {
+								"computed": false,
+								"new":      "subnet-0d46ee3738d625101",
+								"old":      "",
+							},
+							"input.2": {
+								"computed": false,
+								"new":      "subnet-0b8bfb1d6541fd35e",
+								"old":      "",
+							},
+							"keepers": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"result.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"result_count": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"seed": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance[0]": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance",
+			"ec2_instance",
+			"ec2-instance[0]",
+		],
+		"resources": {
+			"aws_instance": {
+				"this": {
+					0: {
+						"applied": {
+							"ami": "REDACTED_SENSITIVE",
+							"credit_specification": [
+								{
+									"cpu_credits": null,
+								},
+							],
+							"enclave_options": [
+								{},
+							],
+							"get_password_data":    false,
+							"hibernation":          null,
+							"iam_instance_profile": "TEC-EC2-SSM",
+							"instance_type":        "m5.large",
+							"launch_template":      [],
+							"metadata_options": [
+								{
+									"http_endpoint":               "enabled",
+									"http_put_response_hop_limit": 1,
+									"http_tokens":                 "optional",
+									"instance_metadata_tags":      "disabled",
+								},
+							],
+							"monitoring": false,
+							"root_block_device": [
+								{
+									"delete_on_termination": true,
+									"encrypted":             true,
+									"tags":                  null,
+									"volume_size":           50,
+									"volume_type":           "gp3",
+								},
+							],
+							"source_dest_check": true,
+							"tags": {
+								"Name":                 "XUSVGA99999D0",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"tags_all": {
+								"Name":                 "XUSVGA99999D0",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"timeouts": {
+								"create": null,
+								"delete": null,
+								"update": null,
+							},
+							"user_data_replace_on_change": false,
+							"volume_tags": {
+								"Name":                 "XUSVGA99999D0",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"vpc_security_group_ids": [
+								"sg-0db5b7ffad9e867d8",
+							],
+						},
+						"destroy": false,
+						"diff": {
+							"ami": {
+								"computed": false,
+								"new":      "REDACTED_SENSITIVE",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"associate_public_ip_address": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"availability_zone": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"capacity_reservation_specification.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_core_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_threads_per_core": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"credit_specification.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.cpu_credits": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"disable_api_termination": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_optimized": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"enclave_options.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.0.enabled": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ephemeral_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"get_password_data": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"hibernation": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"host_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"iam_instance_profile": {
+								"computed": false,
+								"new":      "TEC-EC2-SSM",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_initiated_shutdown_behavior": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_state": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_type": {
+								"computed": false,
+								"new":      "m5.large",
+								"old":      "",
+							},
+							"ipv6_address_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_addresses.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"key_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"launch_template.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"maintenance_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"metadata_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"metadata_options.0.http_endpoint": {
+								"computed": false,
+								"new":      "enabled",
+								"old":      "",
+							},
+							"metadata_options.0.http_put_response_hop_limit": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.http_tokens": {
+								"computed": false,
+								"new":      "optional",
+								"old":      "",
+							},
+							"metadata_options.0.instance_metadata_tags": {
+								"computed": false,
+								"new":      "disabled",
+								"old":      "",
+							},
+							"monitoring": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"network_interface.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"outpost_arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"password_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_group": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_partition_number": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"primary_network_interface_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"root_block_device.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.delete_on_termination": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.device_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.encrypted": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.iops": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.kms_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.throughput": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_size": {
+								"computed": false,
+								"new":      "50",
+								"old":      "",
+							},
+							"root_block_device.0.volume_type": {
+								"computed": false,
+								"new":      "gp3",
+								"old":      "",
+							},
+							"secondary_private_ips.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"security_groups.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"source_dest_check": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"subnet_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "XUSVGA99999D0",
+								"old":      "",
+							},
+							"tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "XUSVGA99999D0",
+								"old":      "",
+							},
+							"tags_all.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags_all.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags_all.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags_all.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags_all.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags_all.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tenancy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"timeouts.create": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.delete": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.update": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_base64": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_replace_on_change": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"volume_tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"volume_tags.Name": {
+								"computed": false,
+								"new":      "XUSVGA99999D0",
+								"old":      "",
+							},
+							"volume_tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"volume_tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"volume_tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"volume_tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"volume_tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.0": {
+								"computed": false,
+								"new":      "sg-0db5b7ffad9e867d8",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance.module.ec2_instance.module.ec2-instance[1]": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance",
+			"ec2_instance",
+			"ec2-instance[1]",
+		],
+		"resources": {
+			"aws_instance": {
+				"this": {
+					0: {
+						"applied": {
+							"ami": "REDACTED_SENSITIVE",
+							"credit_specification": [
+								{
+									"cpu_credits": null,
+								},
+							],
+							"enclave_options": [
+								{},
+							],
+							"get_password_data":    false,
+							"hibernation":          null,
+							"iam_instance_profile": "TEC-EC2-SSM",
+							"instance_type":        "m5.large",
+							"launch_template":      [],
+							"metadata_options": [
+								{
+									"http_endpoint":               "enabled",
+									"http_put_response_hop_limit": 1,
+									"http_tokens":                 "optional",
+									"instance_metadata_tags":      "disabled",
+								},
+							],
+							"monitoring": false,
+							"root_block_device": [
+								{
+									"delete_on_termination": true,
+									"encrypted":             true,
+									"tags":                  null,
+									"volume_size":           50,
+									"volume_type":           "gp3",
+								},
+							],
+							"source_dest_check": true,
+							"tags": {
+								"Name":                 "XUSVGA99999D1",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"tags_all": {
+								"Name":                 "XUSVGA99999D1",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"timeouts": {
+								"create": null,
+								"delete": null,
+								"update": null,
+							},
+							"user_data_replace_on_change": false,
+							"volume_tags": {
+								"Name":                 "XUSVGA99999D1",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"vpc_security_group_ids": [
+								"sg-0db5b7ffad9e867d8",
+							],
+						},
+						"destroy": false,
+						"diff": {
+							"ami": {
+								"computed": false,
+								"new":      "REDACTED_SENSITIVE",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"associate_public_ip_address": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"availability_zone": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"capacity_reservation_specification.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_core_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_threads_per_core": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"credit_specification.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.cpu_credits": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"disable_api_termination": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_optimized": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"enclave_options.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.0.enabled": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ephemeral_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"get_password_data": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"hibernation": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"host_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"iam_instance_profile": {
+								"computed": false,
+								"new":      "TEC-EC2-SSM",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_initiated_shutdown_behavior": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_state": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_type": {
+								"computed": false,
+								"new":      "m5.large",
+								"old":      "",
+							},
+							"ipv6_address_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_addresses.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"key_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"launch_template.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"maintenance_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"metadata_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"metadata_options.0.http_endpoint": {
+								"computed": false,
+								"new":      "enabled",
+								"old":      "",
+							},
+							"metadata_options.0.http_put_response_hop_limit": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.http_tokens": {
+								"computed": false,
+								"new":      "optional",
+								"old":      "",
+							},
+							"metadata_options.0.instance_metadata_tags": {
+								"computed": false,
+								"new":      "disabled",
+								"old":      "",
+							},
+							"monitoring": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"network_interface.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"outpost_arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"password_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_group": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_partition_number": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"primary_network_interface_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"root_block_device.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.delete_on_termination": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.device_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.encrypted": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.iops": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.kms_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.throughput": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_size": {
+								"computed": false,
+								"new":      "50",
+								"old":      "",
+							},
+							"root_block_device.0.volume_type": {
+								"computed": false,
+								"new":      "gp3",
+								"old":      "",
+							},
+							"secondary_private_ips.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"security_groups.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"source_dest_check": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"subnet_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "XUSVGA99999D1",
+								"old":      "",
+							},
+							"tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "XUSVGA99999D1",
+								"old":      "",
+							},
+							"tags_all.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags_all.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags_all.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags_all.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags_all.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags_all.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tenancy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"timeouts.create": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.delete": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.update": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_base64": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_replace_on_change": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"volume_tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"volume_tags.Name": {
+								"computed": false,
+								"new":      "XUSVGA99999D1",
+								"old":      "",
+							},
+							"volume_tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"volume_tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"volume_tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"volume_tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"volume_tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.0": {
+								"computed": false,
+								"new":      "sg-0db5b7ffad9e867d8",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance_web.module.ec2_instance": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance_web",
+			"ec2_instance",
+		],
+		"resources": {
+			"random_shuffle": {
+				"subnet": {
+					0: {
+						"applied": {
+							"input": [
+								"subnet-0cf6c2d0cced64ff0",
+								"subnet-09c050ea8cba8f2e6",
+								"subnet-02850bbac81c4cfec",
+							],
+							"keepers":      null,
+							"result_count": 1,
+							"seed":         null,
+						},
+						"destroy": false,
+						"diff": {
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"input.#": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"input.0": {
+								"computed": false,
+								"new":      "subnet-0cf6c2d0cced64ff0",
+								"old":      "",
+							},
+							"input.1": {
+								"computed": false,
+								"new":      "subnet-09c050ea8cba8f2e6",
+								"old":      "",
+							},
+							"input.2": {
+								"computed": false,
+								"new":      "subnet-02850bbac81c4cfec",
+								"old":      "",
+							},
+							"keepers": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"result.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"result_count": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"seed": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance[0]": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance_web",
+			"ec2_instance",
+			"ec2-instance[0]",
+		],
+		"resources": {
+			"aws_instance": {
+				"this": {
+					0: {
+						"applied": {
+							"ami": "REDACTED_SENSITIVE",
+							"credit_specification": [
+								{
+									"cpu_credits": null,
+								},
+							],
+							"enclave_options": [
+								{},
+							],
+							"get_password_data":    false,
+							"hibernation":          null,
+							"iam_instance_profile": "TEC-EC2-SSM",
+							"instance_type":        "m5.large",
+							"launch_template":      [],
+							"metadata_options": [
+								{
+									"http_endpoint":               "enabled",
+									"http_put_response_hop_limit": 1,
+									"http_tokens":                 "optional",
+									"instance_metadata_tags":      "disabled",
+								},
+							],
+							"monitoring": false,
+							"root_block_device": [
+								{
+									"delete_on_termination": true,
+									"encrypted":             true,
+									"tags":                  null,
+									"volume_size":           50,
+									"volume_type":           "gp3",
+								},
+							],
+							"source_dest_check": true,
+							"tags": {
+								"Name":                 "WUSVGA99999D0",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"tags_all": {
+								"Name":                 "WUSVGA99999D0",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"timeouts": {
+								"create": null,
+								"delete": null,
+								"update": null,
+							},
+							"user_data_replace_on_change": false,
+							"volume_tags": {
+								"Name":                 "WUSVGA99999D0",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"vpc_security_group_ids": [
+								"sg-076ec95e3af133ce3",
+							],
+						},
+						"destroy": false,
+						"diff": {
+							"ami": {
+								"computed": false,
+								"new":      "REDACTED_SENSITIVE",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"associate_public_ip_address": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"availability_zone": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"capacity_reservation_specification.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_core_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_threads_per_core": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"credit_specification.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.cpu_credits": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"disable_api_termination": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_optimized": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"enclave_options.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.0.enabled": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ephemeral_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"get_password_data": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"hibernation": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"host_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"iam_instance_profile": {
+								"computed": false,
+								"new":      "TEC-EC2-SSM",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_initiated_shutdown_behavior": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_state": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_type": {
+								"computed": false,
+								"new":      "m5.large",
+								"old":      "",
+							},
+							"ipv6_address_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_addresses.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"key_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"launch_template.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"maintenance_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"metadata_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"metadata_options.0.http_endpoint": {
+								"computed": false,
+								"new":      "enabled",
+								"old":      "",
+							},
+							"metadata_options.0.http_put_response_hop_limit": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.http_tokens": {
+								"computed": false,
+								"new":      "optional",
+								"old":      "",
+							},
+							"metadata_options.0.instance_metadata_tags": {
+								"computed": false,
+								"new":      "disabled",
+								"old":      "",
+							},
+							"monitoring": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"network_interface.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"outpost_arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"password_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_group": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_partition_number": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"primary_network_interface_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"root_block_device.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.delete_on_termination": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.device_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.encrypted": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.iops": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.kms_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.throughput": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_size": {
+								"computed": false,
+								"new":      "50",
+								"old":      "",
+							},
+							"root_block_device.0.volume_type": {
+								"computed": false,
+								"new":      "gp3",
+								"old":      "",
+							},
+							"secondary_private_ips.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"security_groups.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"source_dest_check": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"subnet_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "WUSVGA99999D0",
+								"old":      "",
+							},
+							"tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "WUSVGA99999D0",
+								"old":      "",
+							},
+							"tags_all.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags_all.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags_all.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags_all.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags_all.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags_all.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tenancy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"timeouts.create": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.delete": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.update": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_base64": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_replace_on_change": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"volume_tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"volume_tags.Name": {
+								"computed": false,
+								"new":      "WUSVGA99999D0",
+								"old":      "",
+							},
+							"volume_tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"volume_tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"volume_tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"volume_tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"volume_tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.0": {
+								"computed": false,
+								"new":      "sg-076ec95e3af133ce3",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+
+	"module.takeda_ec2_instance_web.module.ec2_instance.module.ec2-instance[1]": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance_web",
+			"ec2_instance",
+			"ec2-instance[1]",
+		],
+		"resources": {
+			"aws_instance": {
+				"this": {
+					0: {
+						"applied": {
+							"ami": "REDACTED_SENSITIVE",
+							"credit_specification": [
+								{
+									"cpu_credits": null,
+								},
+							],
+							"enclave_options": [
+								{},
+							],
+							"get_password_data":    false,
+							"hibernation":          null,
+							"iam_instance_profile": "TEC-EC2-SSM",
+							"instance_type":        "m5.large",
+							"launch_template":      [],
+							"metadata_options": [
+								{
+									"http_endpoint":               "enabled",
+									"http_put_response_hop_limit": 1,
+									"http_tokens":                 "optional",
+									"instance_metadata_tags":      "disabled",
+								},
+							],
+							"monitoring": false,
+							"root_block_device": [
+								{
+									"delete_on_termination": true,
+									"encrypted":             true,
+									"tags":                  null,
+									"volume_size":           50,
+									"volume_type":           "gp3",
+								},
+							],
+							"source_dest_check": true,
+							"tags": {
+								"Name":                 "WUSVGA99999D1",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"tags_all": {
+								"Name":                 "WUSVGA99999D1",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"timeouts": {
+								"create": null,
+								"delete": null,
+								"update": null,
+							},
+							"user_data_replace_on_change": false,
+							"volume_tags": {
+								"Name":                 "WUSVGA99999D1",
+								"apms-id":              "APMS-99999",
+								"application-name":     "terraform development",
+								"application-owner-id": "corydon.wood@takeda.com",
+								"business-unit-n1":     "CTO",
+								"business-unit-n2":     "CTO Enterprise Cloud Services",
+								"environment-id":       "dev",
+								"it-technical-owner":   "corydon.wood@takeda.com",
+								"ops-exclude-patch":    "S1",
+							},
+							"vpc_security_group_ids": [
+								"sg-076ec95e3af133ce3",
+							],
+						},
+						"destroy": false,
+						"diff": {
+							"ami": {
+								"computed": false,
+								"new":      "REDACTED_SENSITIVE",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"associate_public_ip_address": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"availability_zone": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"capacity_reservation_specification.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_core_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_threads_per_core": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"credit_specification.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"credit_specification.0.cpu_credits": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"disable_api_termination": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_optimized": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"enclave_options.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.0.enabled": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ephemeral_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"get_password_data": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"hibernation": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"host_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"iam_instance_profile": {
+								"computed": false,
+								"new":      "TEC-EC2-SSM",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_initiated_shutdown_behavior": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_state": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_type": {
+								"computed": false,
+								"new":      "m5.large",
+								"old":      "",
+							},
+							"ipv6_address_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_addresses.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"key_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"launch_template.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"maintenance_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"metadata_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"metadata_options.0.http_endpoint": {
+								"computed": false,
+								"new":      "enabled",
+								"old":      "",
+							},
+							"metadata_options.0.http_put_response_hop_limit": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.http_tokens": {
+								"computed": false,
+								"new":      "optional",
+								"old":      "",
+							},
+							"metadata_options.0.instance_metadata_tags": {
+								"computed": false,
+								"new":      "disabled",
+								"old":      "",
+							},
+							"monitoring": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"network_interface.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"outpost_arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"password_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_group": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_partition_number": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"primary_network_interface_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"root_block_device.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.delete_on_termination": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.device_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.encrypted": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.iops": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.kms_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.throughput": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_size": {
+								"computed": false,
+								"new":      "50",
+								"old":      "",
+							},
+							"root_block_device.0.volume_type": {
+								"computed": false,
+								"new":      "gp3",
+								"old":      "",
+							},
+							"secondary_private_ips.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"security_groups.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"source_dest_check": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"subnet_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "WUSVGA99999D1",
+								"old":      "",
+							},
+							"tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "WUSVGA99999D1",
+								"old":      "",
+							},
+							"tags_all.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"tags_all.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"tags_all.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"tags_all.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"tags_all.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"tags_all.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"tags_all.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"tenancy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"timeouts.create": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.delete": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts.update": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_base64": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_replace_on_change": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"volume_tags.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"volume_tags.Name": {
+								"computed": false,
+								"new":      "WUSVGA99999D1",
+								"old":      "",
+							},
+							"volume_tags.apms-id": {
+								"computed": false,
+								"new":      "APMS-99999",
+								"old":      "",
+							},
+							"volume_tags.application-name": {
+								"computed": false,
+								"new":      "terraform development",
+								"old":      "",
+							},
+							"volume_tags.application-owner-id": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n1": {
+								"computed": false,
+								"new":      "CTO",
+								"old":      "",
+							},
+							"volume_tags.business-unit-n2": {
+								"computed": false,
+								"new":      "CTO Enterprise Cloud Services",
+								"old":      "",
+							},
+							"volume_tags.environment-id": {
+								"computed": false,
+								"new":      "dev",
+								"old":      "",
+							},
+							"volume_tags.it-technical-owner": {
+								"computed": false,
+								"new":      "corydon.wood@takeda.com",
+								"old":      "",
+							},
+							"volume_tags.ops-exclude-patch": {
+								"computed": false,
+								"new":      "S1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"vpc_security_group_ids.0": {
+								"computed": false,
+								"new":      "sg-076ec95e3af133ce3",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+	[
+		"takeda_ec2_instance",
+		"ec2_instance",
+	],
+	[
+		"takeda_ec2_instance",
+		"ec2_instance",
+		"ec2-instance[0]",
+	],
+	[
+		"takeda_ec2_instance",
+		"ec2_instance",
+		"ec2-instance[1]",
+	],
+	[
+		"takeda_ec2_instance_web",
+		"ec2_instance",
+	],
+	[
+		"takeda_ec2_instance_web",
+		"ec2_instance",
+		"ec2-instance[0]",
+	],
+	[
+		"takeda_ec2_instance_web",
+		"ec2_instance",
+		"ec2-instance[1]",
+	],
+]
+
+terraform_version = "1.1.9"
+
+variables = {}
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources

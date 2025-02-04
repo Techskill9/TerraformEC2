@@ -1,0 +1,308 @@
+import "strings"
+import "types"
+
+outputs = {}
+
+_modules = {
+	"root": {
+		"data":      {},
+		"path":      [],
+		"resources": {},
+	},
+
+	"module.takeda_ec2_instance": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance",
+		],
+		"resources": {},
+	},
+
+	"module.takeda_ec2_instance.module.ec2_instance": {
+		"data": {
+			"aws_kms_alias": {
+				"ebs_key": {
+					0: {
+						"attr": {
+							"arn":            "arn:aws:kms:us-east-1:166908186664:alias/TEC-EBS",
+							"id":             "arn:aws:kms:us-east-1:166908186664:alias/TEC-EBS",
+							"name":           "alias/TEC-EBS",
+							"target_key_arn": "arn:aws:kms:us-east-1:166908186664:key/513179b1-cf79-4c03-909c-553d33133fa2",
+							"target_key_id":  "513179b1-cf79-4c03-909c-553d33133fa2",
+						},
+						"depends_on": [],
+						"id":         "arn:aws:kms:us-east-1:166908186664:alias/TEC-EBS",
+						"tainted":    false,
+					},
+				},
+			},
+			"aws_ssm_parameter": {
+				"ami_id": {
+					0: {
+						"attr": {
+							"arn":             "arn:aws:ssm:us-east-1:166908186664:parameter/tec/golden-ami/RHEL8/ami-id",
+							"id":              "/tec/golden-ami/RHEL8/ami-id",
+							"name":            "/tec/golden-ami/RHEL8/ami-id",
+							"type":            "String",
+							"value":           "ami-0a71b5303d64360ab",
+							"version":         4,
+							"with_decryption": true,
+						},
+						"depends_on": [],
+						"id":         "/tec/golden-ami/RHEL8/ami-id",
+						"tainted":    false,
+					},
+				},
+			},
+			"aws_subnets": {
+				"subnets": {
+					0: {
+						"attr": {
+							"filter": [
+								{
+									"name": "vpc-id",
+									"values": [
+										"vpc-0539fec565bdaa8c3",
+									],
+								},
+							],
+							"id": "us-east-1",
+							"ids": [
+								"subnet-0219d9e27b7805f36",
+								"subnet-0d46ee3738d625101",
+								"subnet-0b8bfb1d6541fd35e",
+							],
+							"tags": {
+								"Name": "tec-net-nam-dev-ent-shr-vpc-us-east-1-app-az*",
+							},
+						},
+						"depends_on": [],
+						"id":         "us-east-1",
+						"tainted":    false,
+					},
+				},
+			},
+			"aws_vpc": {
+				"vpc": {
+					0: {
+						"attr": {
+							"arn":        "arn:aws:ec2:us-east-1:176313960331:vpc/vpc-0539fec565bdaa8c3",
+							"cidr_block": "10.41.32.0/19",
+							"cidr_block_associations": [
+								{
+									"association_id": "vpc-cidr-assoc-0bfa2d53c215f1527",
+									"cidr_block":     "10.41.32.0/19",
+									"state":          "associated",
+								},
+								{
+									"association_id": "vpc-cidr-assoc-01c52940720c4241c",
+									"cidr_block":     "100.64.64.0/18",
+									"state":          "associated",
+								},
+							],
+							"default":              false,
+							"dhcp_options_id":      "dopt-037b200fff37619b9",
+							"enable_dns_hostnames": true,
+							"enable_dns_support":   true,
+							"filter": [
+								{
+									"name": "tag:Name",
+									"values": [
+										"*-shr-*",
+									],
+								},
+							],
+							"id":                  "vpc-0539fec565bdaa8c3",
+							"instance_tenancy":    "default",
+							"ipv6_association_id": "",
+							"ipv6_cidr_block":     "",
+							"main_route_table_id": "rtb-0d3271f3c2f196acc",
+							"owner_id":            "176313960331",
+							"state":               null,
+							"tags": {
+								"Name": "tec-net-nam-dev-ent-shr-vpc-us-east-1",
+							},
+						},
+						"depends_on": [],
+						"id":         "vpc-0539fec565bdaa8c3",
+						"tainted":    false,
+					},
+				},
+			},
+		},
+		"path": [
+			"takeda_ec2_instance",
+			"ec2_instance",
+		],
+		"resources": {},
+	},
+
+	"module.takeda_ec2_instance_web": {
+		"data": {},
+		"path": [
+			"takeda_ec2_instance_web",
+		],
+		"resources": {},
+	},
+
+	"module.takeda_ec2_instance_web.module.ec2_instance": {
+		"data": {
+			"aws_kms_alias": {
+				"ebs_key": {
+					0: {
+						"attr": {
+							"arn":            "arn:aws:kms:us-east-1:166908186664:alias/TEC-EBS",
+							"id":             "arn:aws:kms:us-east-1:166908186664:alias/TEC-EBS",
+							"name":           "alias/TEC-EBS",
+							"target_key_arn": "arn:aws:kms:us-east-1:166908186664:key/513179b1-cf79-4c03-909c-553d33133fa2",
+							"target_key_id":  "513179b1-cf79-4c03-909c-553d33133fa2",
+						},
+						"depends_on": [],
+						"id":         "arn:aws:kms:us-east-1:166908186664:alias/TEC-EBS",
+						"tainted":    false,
+					},
+				},
+			},
+			"aws_ssm_parameter": {
+				"ami_id": {
+					0: {
+						"attr": {
+							"arn":             "arn:aws:ssm:us-east-1:166908186664:parameter/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+							"id":              "/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+							"name":            "/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+							"type":            "String",
+							"value":           "ami-053352feb14345de0",
+							"version":         4,
+							"with_decryption": true,
+						},
+						"depends_on": [],
+						"id":         "/tec/golden-ami/Windows2019/NonDomainJoined/ami-id",
+						"tainted":    false,
+					},
+				},
+			},
+			"aws_subnets": {
+				"subnets": {
+					0: {
+						"attr": {
+							"filter": [
+								{
+									"name": "vpc-id",
+									"values": [
+										"vpc-0539fec565bdaa8c3",
+									],
+								},
+							],
+							"id": "us-east-1",
+							"ids": [
+								"subnet-0cf6c2d0cced64ff0",
+								"subnet-09c050ea8cba8f2e6",
+								"subnet-02850bbac81c4cfec",
+							],
+							"tags": {
+								"Name": "tec-net-nam-dev-ent-shr-vpc-us-east-1-web-az*",
+							},
+						},
+						"depends_on": [],
+						"id":         "us-east-1",
+						"tainted":    false,
+					},
+				},
+			},
+			"aws_vpc": {
+				"vpc": {
+					0: {
+						"attr": {
+							"arn":        "arn:aws:ec2:us-east-1:176313960331:vpc/vpc-0539fec565bdaa8c3",
+							"cidr_block": "10.41.32.0/19",
+							"cidr_block_associations": [
+								{
+									"association_id": "vpc-cidr-assoc-0bfa2d53c215f1527",
+									"cidr_block":     "10.41.32.0/19",
+									"state":          "associated",
+								},
+								{
+									"association_id": "vpc-cidr-assoc-01c52940720c4241c",
+									"cidr_block":     "100.64.64.0/18",
+									"state":          "associated",
+								},
+							],
+							"default":              false,
+							"dhcp_options_id":      "dopt-037b200fff37619b9",
+							"enable_dns_hostnames": true,
+							"enable_dns_support":   true,
+							"filter": [
+								{
+									"name": "tag:Name",
+									"values": [
+										"*-shr-*",
+									],
+								},
+							],
+							"id":                  "vpc-0539fec565bdaa8c3",
+							"instance_tenancy":    "default",
+							"ipv6_association_id": "",
+							"ipv6_cidr_block":     "",
+							"main_route_table_id": "rtb-0d3271f3c2f196acc",
+							"owner_id":            "176313960331",
+							"state":               null,
+							"tags": {
+								"Name": "tec-net-nam-dev-ent-shr-vpc-us-east-1",
+							},
+						},
+						"depends_on": [],
+						"id":         "vpc-0539fec565bdaa8c3",
+						"tainted":    false,
+					},
+				},
+			},
+		},
+		"path": [
+			"takeda_ec2_instance_web",
+			"ec2_instance",
+		],
+		"resources": {},
+	},
+}
+
+module_paths = [
+	[],
+	[
+		"takeda_ec2_instance",
+	],
+	[
+		"takeda_ec2_instance",
+		"ec2_instance",
+	],
+	[
+		"takeda_ec2_instance_web",
+	],
+	[
+		"takeda_ec2_instance_web",
+		"ec2_instance",
+	],
+]
+
+terraform_version = "1.1.9"
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources
